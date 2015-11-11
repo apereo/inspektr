@@ -49,10 +49,14 @@ public final class SpringSecurityAuditablePrincipalResolver implements Principal
         final SecurityContext securityContext = SecurityContextHolder.getContext();
 
         if (securityContext == null) {
-            return null;
+            return UNKNOWN_USER;
         }
 
-        return securityContext.getAuthentication().getName();
+        final String subject = securityContext.getAuthentication().getName();
+        if (subject == null) {
+            return UNKNOWN_USER;
+        }
+        return subject;
     }
 
 }
