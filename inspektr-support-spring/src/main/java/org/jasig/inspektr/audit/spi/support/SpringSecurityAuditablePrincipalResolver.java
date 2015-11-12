@@ -52,6 +52,10 @@ public final class SpringSecurityAuditablePrincipalResolver implements Principal
             return UNKNOWN_USER;
         }
 
+        if (securityContext.getAuthentication() == null) {
+            return UNKNOWN_USER;
+        }
+
         final String subject = securityContext.getAuthentication().getName();
         if (subject == null) {
             return UNKNOWN_USER;
