@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0
  *
  */
-public final class ClientInfo {
+public class ClientInfo {
 
     public static ClientInfo EMPTY_CLIENT_INFO = new ClientInfo();
 

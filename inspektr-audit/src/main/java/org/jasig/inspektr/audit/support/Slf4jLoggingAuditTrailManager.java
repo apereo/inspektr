@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * @since 1.0
  * @see AuditTrailManager
  */
-public final class Slf4jLoggingAuditTrailManager extends AbstractStringAuditTrailManager {
+public class Slf4jLoggingAuditTrailManager extends AbstractStringAuditTrailManager {
     
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 

@@ -31,7 +31,7 @@ import java.util.List;
  * @since 1.0
  *
  */
-public final class MaxAgeWhereClauseMatchCriteria extends AbstractWhereClauseMatchCriteria {
+public class MaxAgeWhereClauseMatchCriteria extends AbstractWhereClauseMatchCriteria {
  
   /** Name of creation date column name in audit record table */
   private static final String DATE_COLUMN = "AUD_DATE";

@@ -26,7 +26,7 @@ package org.jasig.inspektr.common.web;
  * @since 1.0
  *
  */
-public final class ClientInfoHolder {
+public class ClientInfoHolder {
 
     private static final ThreadLocal<ClientInfo> clientInfoHolder = new ThreadLocal<ClientInfo>();
 

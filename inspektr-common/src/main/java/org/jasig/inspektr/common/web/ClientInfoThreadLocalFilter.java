@@ -39,7 +39,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0
  *
  */
-public final class ClientInfoThreadLocalFilter implements Filter {
+public class ClientInfoThreadLocalFilter implements Filter {
 
     public static final String CONST_IP_ADDRESS_HEADER = "alternativeIpAddressHeader";
 

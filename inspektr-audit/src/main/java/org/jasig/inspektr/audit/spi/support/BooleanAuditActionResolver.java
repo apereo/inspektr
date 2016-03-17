@@ -33,7 +33,7 @@ import org.jasig.inspektr.audit.spi.AuditActionResolver;
  * @since 1.0
  *
  */
-public final class BooleanAuditActionResolver extends AbstractSuffixAwareAuditActionResolver {
+public class BooleanAuditActionResolver extends AbstractSuffixAwareAuditActionResolver {
 
     /**
      * Constructs the {@link BooleanAuditActionResolver} with a success suffix and failure

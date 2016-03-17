@@ -9,7 +9,7 @@ import org.aspectj.lang.JoinPoint;
  * @author Marvin S. Addison
  * @author Misagh Moayyed
  */
-public final class AopUtils {
+public class AopUtils {
 
     /**
      * Instantiates a new aop utils.

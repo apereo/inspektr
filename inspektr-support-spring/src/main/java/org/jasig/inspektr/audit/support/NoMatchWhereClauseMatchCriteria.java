@@ -29,7 +29,7 @@ import java.util.List;
  * @since 1.0
  *
  */
-public final class NoMatchWhereClauseMatchCriteria extends AbstractWhereClauseMatchCriteria {
+public class NoMatchWhereClauseMatchCriteria extends AbstractWhereClauseMatchCriteria {
   
   public NoMatchWhereClauseMatchCriteria() {
     sbClause.append("WHERE 0=1");

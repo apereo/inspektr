@@ -13,7 +13,7 @@ import java.util.Arrays;
  * @author Scott Battaglia
  * @author Misagh Moayyed
  */
-public final class FirstParameterAuditResourceResolver implements AuditResourceResolver {
+public class FirstParameterAuditResourceResolver implements AuditResourceResolver {
 
     private String resourceString;
 

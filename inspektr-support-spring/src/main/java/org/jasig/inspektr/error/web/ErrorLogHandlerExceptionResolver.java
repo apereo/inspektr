@@ -44,7 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version $Revision: 1.3 $ $Date: 2007/07/11 20:48:46 $
  * @since 1.0
  */
-public final class ErrorLogHandlerExceptionResolver implements HandlerExceptionResolver, Ordered {
+public class ErrorLogHandlerExceptionResolver implements HandlerExceptionResolver, Ordered {
 
     @NotNull
     private ErrorLogManager errorLogManager;

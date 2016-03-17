@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
  * @since 1.0
  *
  */
-public final class DefaultClientInfoResolver implements ClientInfoResolver {
+public class DefaultClientInfoResolver implements ClientInfoResolver {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 

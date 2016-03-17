@@ -30,7 +30,7 @@ import org.jasig.inspektr.audit.annotation.Audit;
  * @since 1.0
  *
  */
-public final class DefaultAuditActionResolver extends AbstractSuffixAwareAuditActionResolver {
+public class DefaultAuditActionResolver extends AbstractSuffixAwareAuditActionResolver {
 
     /**
      * Constructs the resolver with empty values for the two suffixes.

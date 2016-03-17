@@ -29,7 +29,7 @@ import java.util.Date;
  * @version $Id: AuditActionContext.java,v 1.2 2007/06/14 14:43:32 dkopylen Exp $
  * @since 1.0
  */
-public final class AuditActionContext implements Serializable {
+public class AuditActionContext implements Serializable {
 
     /**
      * Unique Id for serialization.

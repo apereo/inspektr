@@ -33,7 +33,7 @@ import org.jasig.inspektr.audit.spi.AuditResourceResolver;
  * @since 1.0
  *
  */
-public final class ReturnValueAsStringResourceResolver implements AuditResourceResolver {
+public class ReturnValueAsStringResourceResolver implements AuditResourceResolver {
 
     public String[] resolveFrom(final JoinPoint auditableTarget, final Object retval) {
         if (retval instanceof Collection) {

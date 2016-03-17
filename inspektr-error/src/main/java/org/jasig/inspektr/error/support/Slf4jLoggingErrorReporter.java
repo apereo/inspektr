@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * @version $Revision: 1.3 $ $Date: 2007/07/11 20:48:47 $
  * @since 1.0
  */
-public final class Slf4jLoggingErrorReporter implements ErrorReporter {
+public class Slf4jLoggingErrorReporter implements ErrorReporter {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 

@@ -29,7 +29,7 @@ import org.jasig.inspektr.audit.annotation.Audit;
  * @version 1.0
  *
  */
-public final class ObjectCreationAuditActionResolver extends AbstractSuffixAwareAuditActionResolver {
+public class ObjectCreationAuditActionResolver extends AbstractSuffixAwareAuditActionResolver {
 
     /**
      * Constructs the {@link ObjectCreationAuditActionResolver} with a success suffix and failure

@@ -46,7 +46,7 @@ import org.jasig.inspektr.audit.spi.support.ObjectCreationAuditActionResolver;
  * @since 1.0
  */
 @Aspect
-public final class AuditTrailManagementAspect {
+public class AuditTrailManagementAspect {
 
     private final PrincipalResolver auditPrincipalResolver;
 

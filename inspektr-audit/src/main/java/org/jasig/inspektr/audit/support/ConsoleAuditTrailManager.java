@@ -32,7 +32,7 @@ import org.jasig.inspektr.audit.AuditActionContext;
  * @since 1.0
  * @see AuditTrailManager
  */
-public final class ConsoleAuditTrailManager extends AbstractStringAuditTrailManager {
+public class ConsoleAuditTrailManager extends AbstractStringAuditTrailManager {
 
     public void record(final AuditActionContext auditActionContext) {
         System.out.println(toString(auditActionContext));
