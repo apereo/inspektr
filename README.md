@@ -1,4 +1,4 @@
-## Inspektr [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.jasig.inspektr/inspektr/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.jasig.inspektr/inspektr) [![Build Status](https://travis-ci.org/Jasig/inspektr.png?branch=master)](https://travis-ci.org/Jasig/inspektr)
+## Inspektr [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apereo.inspektr/inspektr/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.apereo.inspektr/inspektr) [![Build Status](https://travis-ci.org/apereo/inspektr.png?branch=master)](https://travis-ci.org/apereo/inspektr)
 
 Inspektr is a very small library designed to capture and record the following pieces of
 runtime information from Spring framework's managed beans i.e. running inside Spring DI container:
@@ -55,7 +55,7 @@ Out of the box, Inspektr comes with the following default implementations for al
 ***
 
      /**
-     * Implementation of {@link org.jasig.inspektr.audit.AuditTrailManager} to persist the
+     * Implementation of {@link org.apereo.inspektr.audit.AuditTrailManager} to persist the
      * audit trail to the  AUDIT_TRAIL table in RDBMS of choice
      * <p/>
      * <pre>
@@ -76,7 +76,7 @@ Out of the box, Inspektr comes with the following default implementations for al
 ```
 
 In addition to the above `AuditTrailManager` imlementations, the default resolvers are available in the
-`org.jasig.inspektr.audit.spi.support` package
+`org.apereo.inspektr.audit.spi.support` package
 
 ## Configuration
 
@@ -84,11 +84,10 @@ In addition to the above `AuditTrailManager` imlementations, the default resolve
 in the application context definition file: `<aop:aspectj-autoproxy/>` or via AspectJ compile-time weaving by using
  ajc compiler e.g by using AspectJ compiler Maven plugin if using Maven, etc.
 
-2. Configure `org.jasig.inspektr.common.web.ClientInfoThreadLocalFilter` in `web.xml` (if deploying Servlet-based web application)
+2. Configure `org.apereo.inspektr.common.web.ClientInfoThreadLocalFilter` in `web.xml` (if deploying Servlet-based web application)
 
 3. Configure `AuditTrailManager`s, all the resolvers and wire all of this into the `AuditTrailManagementAspect
-` in the Spring application context definition file. The following example configuration is taken from 
-[Apereo CAS](https://github.com/Jasig/cas/blob/master/cas-server-webapp/src/main/webapp/WEB-INF/spring-configuration/auditTrailContext.xml)
+` in the Spring application context definition file. 
 
 4. Define audit points which would expose auditing data to the Inspektr auditing facility by annotating methods
  of Spring-managed beans with `Audit` or `Audits` annotations:

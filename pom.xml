@@ -25,24 +25,24 @@
         <version>40</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.jasig.inspektr</groupId>
+    <groupId>org.apereo.inspektr</groupId>
     <artifactId>inspektr</artifactId>
     <packaging>pom</packaging>
     <name>Inspektr Auditing Library</name>
     <version>1.5.GA-SNAPSHOT</version>
-    <url>http://inspektr.github.com</url>
+    <url>http://github.com/apereo/inspektr</url>
     <inceptionYear>2007</inceptionYear>
     <description>Inspektr is a non-intrusive auditing library for Java based applications.</description>
 
     <scm>
-        <connection>scm:git:http://github.com/Jasig/inspektr.git</connection>
-        <developerConnection>scm:git:git@github.com:Jasig/inspektr.git</developerConnection>
-        <url>http://www.github.com/Jasig/inpektr</url>
+        <connection>scm:git:http://github.com/apereo/inspektr.git</connection>
+        <developerConnection>scm:git:git@github.com:apereo/inspektr.git</developerConnection>
+        <url>http://www.github.com/apereo/inpektr</url>
         <tag>master</tag>
     </scm>
 
     <issueManagement>
-        <url>http://github.com/Jasig/inspektr/issues</url>
+        <url>http://github.com/apereo/inspektr/issues</url>
         <system>Github</system>
     </issueManagement>
 

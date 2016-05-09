@@ -22,7 +22,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>inspektr</artifactId>
-        <groupId>org.jasig.inspektr</groupId>
+        <groupId>org.apereo.inspektr</groupId>
         <version>1.5.GA-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -36,7 +36,6 @@
             <artifactId>aspectjrt</artifactId>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
