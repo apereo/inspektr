@@ -43,5 +43,10 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.hjson</groupId>
+            <artifactId>hjson</artifactId>
+        </dependency>
     </dependencies>
 </project>
