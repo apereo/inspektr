@@ -135,6 +135,13 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.hjson</groupId>
+                <artifactId>hjson</artifactId>
+                <version>${hjson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            
+            <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjrt</artifactId>
                 <version>${aspectj.version}</version>
@@ -260,12 +267,13 @@
         <slf4j.version>1.7.12</slf4j.version>
         <junit.version>4.12</junit.version>
         <aspectj.version>1.8.5</aspectj.version>
+        <hjson.version>1.1.4</hjson.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
         <javax.validation.version>1.0.0.GA</javax.validation.version>
 
         <maven-aspectj-plugin.version>1.7</maven-aspectj-plugin.version>
-        <project.build.sourceVersion>1.7</project.build.sourceVersion>
-        <project.build.targetVersion>1.7</project.build.targetVersion>
+        <project.build.sourceVersion>1.8</project.build.sourceVersion>
+        <project.build.targetVersion>1.8</project.build.targetVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
