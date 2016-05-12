@@ -20,6 +20,7 @@ This project includes:
   AspectJ runtime under Eclipse Public License - v 1.0
   Bean Validation API under Apache License, Version 2.0
   Hamcrest Core under New BSD License
+  Hjson Library under The MIT License (MIT)
   Inspektr - Auditing API under Apache 2.0 License
   Inspektr - Common API under Apache 2.0 License
   Inspektr - Error Logging under Apache 2.0 License
