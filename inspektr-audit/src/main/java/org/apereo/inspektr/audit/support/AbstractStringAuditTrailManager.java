@@ -69,9 +69,9 @@ public abstract class AbstractStringAuditTrailManager implements AuditTrailManag
             builder.append("Audit trail record BEGIN\n");
             builder.append("=============================================================");
             if (this.useSingleLine) {
-                builder.append(getJsonAuditString(auditActionContext).toString(Stringify.PLAIN));
+                builder.append(getJsonObjectForAudit(auditActionContext).toString(Stringify.PLAIN));
             }
-            builder.append(getJsonAuditString(auditActionContext).toString(Stringify.FORMATTED));
+            builder.append(getJsonObjectForAudit(auditActionContext).toString(Stringify.FORMATTED));
             builder.append("\n");
             builder.append("=============================================================");
             builder.append("\n\n");
@@ -134,7 +134,7 @@ public abstract class AbstractStringAuditTrailManager implements AuditTrailManag
         return builder.toString();
     }
 
-    protected JsonObject getJsonAuditString(final AuditActionContext auditActionContext) {
+    protected JsonObject getJsonObjectForAudit(final AuditActionContext auditActionContext) {
         final JsonObject jsonObject = new JsonObject()
                         .add("who", auditActionContext.getPrincipal())
                         .add("what", auditActionContext.getResourceOperatedUpon())
