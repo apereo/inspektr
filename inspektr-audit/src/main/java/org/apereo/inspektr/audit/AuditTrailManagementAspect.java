@@ -157,7 +157,7 @@ public class AuditTrailManagementAspect {
             final AuditActionContext auditContext =
                     new AuditActionContext(currentPrincipal, auditableResource, action, applicationCode,
                             actionDate, clientInfo.getClientIpAddress(), clientInfo.getServerIpAddress(), runtimeInfo);
-            // Finally record the audit trail info
+           
             try {
                 for (final AuditTrailManager manager : auditTrailManagers) {
                     manager.record(auditContext);
@@ -166,7 +166,9 @@ public class AuditTrailManagementAspect {
                 if (this.failOnAuditFailures) {
                     throw e;
                 }
-                LOG.error(e.getMessage(), e);
+                LOG.error("Failed to record audit context for " 
+                        + auditContext.getActionPerformed()
+                        + " and principal " + auditContext.getPrincipal(), e);
             }
         }
     }
