@@ -36,6 +36,8 @@ import org.apereo.inspektr.common.web.ClientInfo;
 import org.apereo.inspektr.audit.spi.support.BooleanAuditActionResolver;
 import org.apereo.inspektr.audit.spi.support.DefaultAuditActionResolver;
 import org.apereo.inspektr.audit.spi.support.ObjectCreationAuditActionResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A POJO style aspect modularizing management of an audit trail data concern.
@@ -48,6 +50,8 @@ import org.apereo.inspektr.audit.spi.support.ObjectCreationAuditActionResolver;
 @Aspect
 public class AuditTrailManagementAspect {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AuditTrailManagementAspect.class);
+    
     private final PrincipalResolver auditPrincipalResolver;
 
     private final Map<String, AuditActionResolver> auditActionResolvers;
@@ -60,6 +64,8 @@ public class AuditTrailManagementAspect {
 
     private ClientInfoResolver clientInfoResolver = new DefaultClientInfoResolver();
 
+    private boolean failOnAuditFailures = true;
+    
     /**
      * Constructs an AuditTrailManagementAspect with the following parameters.  Also, registers some default AuditActionResolvers including the
      * {@link DefaultAuditActionResolver}, the {@link BooleanAuditActionResolver} and the {@link ObjectCreationAuditActionResolver}.
@@ -78,7 +84,7 @@ public class AuditTrailManagementAspect {
         this.auditResourceResolvers = auditResourceResolverMap;
 
     }
-
+    
     @Around(value = "@annotation(audits)", argNames = "audits")
     public Object handleAuditTrail(final ProceedingJoinPoint joinPoint, final Audits audits) throws Throwable {
         Object retVal = null;
@@ -151,11 +157,24 @@ public class AuditTrailManagementAspect {
             final AuditActionContext auditContext =
                     new AuditActionContext(currentPrincipal, auditableResource, action, applicationCode,
                             actionDate, clientInfo.getClientIpAddress(), clientInfo.getServerIpAddress(), runtimeInfo);
-            // Finally record the audit trail info
-            for (AuditTrailManager manager : auditTrailManagers) {
-                manager.record(auditContext);
+           
+            try {
+                for (final AuditTrailManager manager : auditTrailManagers) {
+                    manager.record(auditContext);
+                }
+            } catch (final Throwable e) {
+                if (this.failOnAuditFailures) {
+                    throw e;
+                }
+                LOG.error("Failed to record audit context for " 
+                        + auditContext.getActionPerformed()
+                        + " and principal " + auditContext.getPrincipal(), e);
             }
         }
+    }
+
+    public void setFailOnAuditFailures(final boolean failOnAuditFailures) {
+        this.failOnAuditFailures = failOnAuditFailures;
     }
 
     public void setClientInfoResolver(final ClientInfoResolver factory) {
