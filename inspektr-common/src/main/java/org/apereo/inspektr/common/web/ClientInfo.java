@@ -46,10 +46,16 @@ public class ClientInfo {
         this(request.getLocalAddr(), request.getRemoteAddr());
     }
 
-    public ClientInfo(final HttpServletRequest request, final String alternateLocation) {
-        this(request.getLocalAddr(), request.getHeader(alternateLocation) != null ? request.getHeader(alternateLocation) : request.getRemoteAddr());
+    public ClientInfo(final HttpServletRequest request, final String alternateLocalAddrHeaderName) {
+        this(request.getLocalAddr(), 
+                request.getHeader(alternateLocalAddrHeaderName) != null ? request.getHeader(alternateLocalAddrHeaderName) : request.getRemoteAddr());
     }
 
+    public ClientInfo(final HttpServletRequest request, final String alternateServerAddrHeader, final String alternateLocalAddrHeaderName) {
+        this(request.getHeader(alternateServerAddrHeader) != null ? request.getHeader(alternateServerAddrHeader) : request.getLocalAddr(), 
+             request.getHeader(alternateLocalAddrHeaderName) != null ? request.getHeader(alternateLocalAddrHeaderName) : request.getRemoteAddr());
+    }
+    
     public ClientInfo(final String serverIpAddress, final String clientIpAddress) {
         this.serverIpAddress = serverIpAddress == null ? "unknown" : serverIpAddress;
         this.clientIpAddress = clientIpAddress == null ? "unknown" : clientIpAddress;
