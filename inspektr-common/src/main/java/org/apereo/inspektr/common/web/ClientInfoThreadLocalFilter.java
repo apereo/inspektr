@@ -42,12 +42,12 @@ import javax.servlet.http.HttpServletRequest;
 public class ClientInfoThreadLocalFilter implements Filter {
 
     public static final String CONST_IP_ADDRESS_HEADER = "alternativeIpAddressHeader";
-    public static final String CONST_SERVER_IP_ADDRESS_HEADER = "alternateServerAddrHeader";
+    public static final String CONST_SERVER_IP_ADDRESS_HEADER = "alternateServerAddrHeaderName";
     public static final String CONST_USE_SERVER_HOST_ADDRESS = "useServerHostAddress";
 
     private String alternateLocalAddrHeaderName;
     private boolean useServerHostAddress;
-    private String alternateServerAddrHeader;
+    private String alternateServerAddrHeaderName;
     
     public void destroy() {
         // nothing to do here
@@ -57,7 +57,7 @@ public class ClientInfoThreadLocalFilter implements Filter {
         try {
             final ClientInfo clientInfo =
                     new ClientInfo((HttpServletRequest) request,
-                            this.alternateServerAddrHeader,
+                            this.alternateServerAddrHeaderName,
                             this.alternateLocalAddrHeaderName,
                             this.useServerHostAddress);
             ClientInfoHolder.setClientInfo(clientInfo);
@@ -69,7 +69,7 @@ public class ClientInfoThreadLocalFilter implements Filter {
 
     public void init(final FilterConfig filterConfig) throws ServletException {
         this.alternateLocalAddrHeaderName = filterConfig.getInitParameter(CONST_IP_ADDRESS_HEADER);
-        this.alternateServerAddrHeader = filterConfig.getInitParameter(CONST_SERVER_IP_ADDRESS_HEADER);
+        this.alternateServerAddrHeaderName = filterConfig.getInitParameter(CONST_SERVER_IP_ADDRESS_HEADER);
         String useServerHostAddr = filterConfig.getInitParameter(CONST_USE_SERVER_HOST_ADDRESS);
         if (useServerHostAddr != null && !useServerHostAddr.isEmpty()) {
             this.useServerHostAddress = Boolean.valueOf(useServerHostAddr);

@@ -20,7 +20,6 @@ package org.apereo.inspektr.common.web;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.Inet4Address;
-import java.net.UnknownHostException;
 
 /**
  * Captures information from the HttpServletRequest to log later.
@@ -46,7 +45,7 @@ public class ClientInfo {
     }
     
     public ClientInfo(final HttpServletRequest request,
-                      final String alternateServerAddrHeader,
+                      final String alternateServerAddrHeaderName,
                       final String alternateLocalAddrHeaderName,
                       final boolean useServerHostAddress) {
 
@@ -56,9 +55,9 @@ public class ClientInfo {
 
             if (useServerHostAddress) {
                 serverIpAddress = Inet4Address.getLocalHost().getHostAddress();
-            } else if (alternateServerAddrHeader != null && !alternateServerAddrHeader.isEmpty()) {
-                serverIpAddress = request.getHeader(alternateServerAddrHeader) != null
-                        ? request.getHeader(alternateServerAddrHeader) : request.getLocalAddr();
+            } else if (alternateServerAddrHeaderName != null && !alternateServerAddrHeaderName.isEmpty()) {
+                serverIpAddress = request.getHeader(alternateServerAddrHeaderName) != null
+                        ? request.getHeader(alternateServerAddrHeaderName) : request.getLocalAddr();
             }
 
             if (alternateLocalAddrHeaderName != null && !alternateLocalAddrHeaderName.isEmpty()) {
