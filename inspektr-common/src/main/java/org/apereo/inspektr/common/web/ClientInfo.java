@@ -48,6 +48,10 @@ public class ClientInfo {
         this.clientIpAddress = clientIpAddress;
     }
 
+    public ClientInfo(final HttpServletRequest request) {
+        this(request, null, null, false);
+    }
+    
     public ClientInfo(final HttpServletRequest request,
                       final String alternateServerAddrHeaderName,
                       final String alternateLocalAddrHeaderName,
