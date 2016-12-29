@@ -19,6 +19,8 @@
 package org.apereo.inspektr.common.web;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 
 /**
  * Captures information from the HttpServletRequest to log later.
@@ -46,9 +48,19 @@ public class ClientInfo {
         this(request.getLocalAddr(), request.getRemoteAddr());
     }
 
+    public ClientInfo(final HttpServletRequest request, final boolean useServerHostAddress) throws UnknownHostException {
+        this(useServerHostAddress ? Inet4Address.getLocalHost().getHostAddress() : request.getLocalAddr(), request.getRemoteAddr());
+    }
+
+    public ClientInfo(final HttpServletRequest request, final String alternateLocalAddrHeaderName, 
+                      final boolean useServerHostAddress) throws UnknownHostException {
+        this(useServerHostAddress ? Inet4Address.getLocalHost().getHostAddress() : request.getLocalAddr(),
+            request.getHeader(alternateLocalAddrHeaderName) != null ? request.getHeader(alternateLocalAddrHeaderName) : request.getRemoteAddr());
+    }
+    
     public ClientInfo(final HttpServletRequest request, final String alternateLocalAddrHeaderName) {
         this(request.getLocalAddr(), 
-                request.getHeader(alternateLocalAddrHeaderName) != null ? request.getHeader(alternateLocalAddrHeaderName) : request.getRemoteAddr());
+             request.getHeader(alternateLocalAddrHeaderName) != null ? request.getHeader(alternateLocalAddrHeaderName) : request.getRemoteAddr());
     }
 
     public ClientInfo(final HttpServletRequest request, final String alternateServerAddrHeader, final String alternateLocalAddrHeaderName) {
