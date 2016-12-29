@@ -40,10 +40,14 @@ public class ClientInfo {
     private final String clientIpAddress;
     
     private ClientInfo() {
-        this.serverIpAddress = null;
-        this.clientIpAddress = null;
+        this(null, null);
     }
-    
+
+    public ClientInfo(final String serverIpAddress, final String clientIpAddress) {
+        this.serverIpAddress = serverIpAddress;
+        this.clientIpAddress = clientIpAddress;
+    }
+
     public ClientInfo(final HttpServletRequest request,
                       final String alternateServerAddrHeaderName,
                       final String alternateLocalAddrHeaderName,
