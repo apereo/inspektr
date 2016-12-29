@@ -6,9 +6,9 @@
  * Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License.  You may obtain a
  * copy of the License at the following location:
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -24,7 +24,7 @@ import java.net.UnknownHostException;
 
 /**
  * Captures information from the HttpServletRequest to log later.
- * 
+ *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0
@@ -39,38 +39,40 @@ public class ClientInfo {
 
     /** IP Address of the client (Remote) */
     private final String clientIpAddress;
-
+    
     private ClientInfo() {
-        this((String) null, (String) null);
-    }
-
-    public ClientInfo(final HttpServletRequest request) {
-        this(request.getLocalAddr(), request.getRemoteAddr());
-    }
-
-    public ClientInfo(final HttpServletRequest request, final boolean useServerHostAddress) throws UnknownHostException {
-        this(useServerHostAddress ? Inet4Address.getLocalHost().getHostAddress() : request.getLocalAddr(), request.getRemoteAddr());
-    }
-
-    public ClientInfo(final HttpServletRequest request, final String alternateLocalAddrHeaderName, 
-                      final boolean useServerHostAddress) throws UnknownHostException {
-        this(useServerHostAddress ? Inet4Address.getLocalHost().getHostAddress() : request.getLocalAddr(),
-            request.getHeader(alternateLocalAddrHeaderName) != null ? request.getHeader(alternateLocalAddrHeaderName) : request.getRemoteAddr());
+        this.serverIpAddress = null;
+        this.clientIpAddress = null;
     }
     
-    public ClientInfo(final HttpServletRequest request, final String alternateLocalAddrHeaderName) {
-        this(request.getLocalAddr(), 
-             request.getHeader(alternateLocalAddrHeaderName) != null ? request.getHeader(alternateLocalAddrHeaderName) : request.getRemoteAddr());
-    }
+    public ClientInfo(final HttpServletRequest request,
+                      final String alternateServerAddrHeader,
+                      final String alternateLocalAddrHeaderName,
+                      final boolean useServerHostAddress) {
 
-    public ClientInfo(final HttpServletRequest request, final String alternateServerAddrHeader, final String alternateLocalAddrHeaderName) {
-        this(request.getHeader(alternateServerAddrHeader) != null ? request.getHeader(alternateServerAddrHeader) : request.getLocalAddr(), 
-             request.getHeader(alternateLocalAddrHeaderName) != null ? request.getHeader(alternateLocalAddrHeaderName) : request.getRemoteAddr());
-    }
-    
-    public ClientInfo(final String serverIpAddress, final String clientIpAddress) {
-        this.serverIpAddress = serverIpAddress == null ? "unknown" : serverIpAddress;
-        this.clientIpAddress = clientIpAddress == null ? "unknown" : clientIpAddress;
+        try {
+            String serverIpAddress = request.getLocalAddr();
+            String clientIpAddress = request.getRemoteAddr();
+
+            if (useServerHostAddress) {
+                serverIpAddress = Inet4Address.getLocalHost().getHostAddress();
+            } else if (alternateServerAddrHeader != null && !alternateServerAddrHeader.isEmpty()) {
+                serverIpAddress = request.getHeader(alternateServerAddrHeader) != null
+                        ? request.getHeader(alternateServerAddrHeader) : request.getLocalAddr();
+            }
+
+            if (alternateLocalAddrHeaderName != null && !alternateLocalAddrHeaderName.isEmpty()) {
+                clientIpAddress = request.getHeader(alternateLocalAddrHeaderName) != null ? request.getHeader
+                        (alternateLocalAddrHeaderName) : request.getRemoteAddr();
+            }
+
+
+            this.serverIpAddress = serverIpAddress == null ? "unknown" : serverIpAddress;
+            this.clientIpAddress = clientIpAddress == null ? "unknown" : clientIpAddress;
+
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getServerIpAddress() {

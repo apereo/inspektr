@@ -42,22 +42,24 @@ import javax.servlet.http.HttpServletRequest;
 public class ClientInfoThreadLocalFilter implements Filter {
 
     public static final String CONST_IP_ADDRESS_HEADER = "alternativeIpAddressHeader";
+    public static final String CONST_SERVER_IP_ADDRESS_HEADER = "alternateServerAddrHeader";
+    public static final String CONST_USE_SERVER_HOST_ADDRESS = "useServerHostAddress";
 
-    private String otherHeader;
-
+    private String alternateLocalAddrHeaderName;
+    private boolean useServerHostAddress;
+    private String alternateServerAddrHeader;
+    
     public void destroy() {
         // nothing to do here
     }
 
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain filterChain) throws IOException, ServletException {
         try {
-            final ClientInfo clientInfo;
-
-            if (otherHeader == null || otherHeader.isEmpty()) {
-                clientInfo = new ClientInfo((HttpServletRequest) request);
-            } else {
-                clientInfo = new ClientInfo((HttpServletRequest) request, this.otherHeader);
-            }
+            final ClientInfo clientInfo =
+                    new ClientInfo((HttpServletRequest) request,
+                            this.alternateServerAddrHeader,
+                            this.alternateLocalAddrHeaderName,
+                            this.useServerHostAddress);
             ClientInfoHolder.setClientInfo(clientInfo);
             filterChain.doFilter(request, response);
         } finally {
@@ -66,6 +68,11 @@ public class ClientInfoThreadLocalFilter implements Filter {
     }
 
     public void init(final FilterConfig filterConfig) throws ServletException {
-        this.otherHeader = filterConfig.getInitParameter(CONST_IP_ADDRESS_HEADER);
+        this.alternateLocalAddrHeaderName = filterConfig.getInitParameter(CONST_IP_ADDRESS_HEADER);
+        this.alternateServerAddrHeader = filterConfig.getInitParameter(CONST_SERVER_IP_ADDRESS_HEADER);
+        String useServerHostAddr = filterConfig.getInitParameter(CONST_USE_SERVER_HOST_ADDRESS);
+        if (useServerHostAddr != null && !useServerHostAddr.isEmpty()) {
+            this.useServerHostAddress = Boolean.valueOf(useServerHostAddr);
+        }
     }
 }
