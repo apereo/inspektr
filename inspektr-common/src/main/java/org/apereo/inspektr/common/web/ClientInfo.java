@@ -40,12 +40,7 @@ public class ClientInfo {
     private final String clientIpAddress;
     
     private ClientInfo() {
-        this(null, null);
-    }
-
-    public ClientInfo(final String serverIpAddress, final String clientIpAddress) {
-        this.serverIpAddress = serverIpAddress;
-        this.clientIpAddress = clientIpAddress;
+        this(null);
     }
 
     public ClientInfo(final HttpServletRequest request) {
@@ -58,21 +53,22 @@ public class ClientInfo {
                       final boolean useServerHostAddress) {
 
         try {
-            String serverIpAddress = request.getLocalAddr();
-            String clientIpAddress = request.getRemoteAddr();
+            String serverIpAddress = request != null ? request.getLocalAddr() : null;
+            String clientIpAddress = request != null ? request.getRemoteAddr() : null;
 
-            if (useServerHostAddress) {
-                serverIpAddress = Inet4Address.getLocalHost().getHostAddress();
-            } else if (alternateServerAddrHeaderName != null && !alternateServerAddrHeaderName.isEmpty()) {
-                serverIpAddress = request.getHeader(alternateServerAddrHeaderName) != null
-                        ? request.getHeader(alternateServerAddrHeaderName) : request.getLocalAddr();
+            if (request != null) {
+                if (useServerHostAddress) {
+                    serverIpAddress = Inet4Address.getLocalHost().getHostAddress();
+                } else if (alternateServerAddrHeaderName != null && !alternateServerAddrHeaderName.isEmpty()) {
+                    serverIpAddress = request.getHeader(alternateServerAddrHeaderName) != null
+                            ? request.getHeader(alternateServerAddrHeaderName) : request.getLocalAddr();
+                }
+
+                if (alternateLocalAddrHeaderName != null && !alternateLocalAddrHeaderName.isEmpty()) {
+                    clientIpAddress = request.getHeader(alternateLocalAddrHeaderName) != null ? request.getHeader
+                            (alternateLocalAddrHeaderName) : request.getRemoteAddr();
+                }
             }
-
-            if (alternateLocalAddrHeaderName != null && !alternateLocalAddrHeaderName.isEmpty()) {
-                clientIpAddress = request.getHeader(alternateLocalAddrHeaderName) != null ? request.getHeader
-                        (alternateLocalAddrHeaderName) : request.getRemoteAddr();
-            }
-
 
             this.serverIpAddress = serverIpAddress == null ? "unknown" : serverIpAddress;
             this.clientIpAddress = clientIpAddress == null ? "unknown" : clientIpAddress;
