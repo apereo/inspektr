@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.apereo.inspektr</groupId>
         <artifactId>inspektr</artifactId>
-        <version>1.7.GA</version>
+        <version>1.8.GA-SNAPSHOT</version>
     </parent>
     <description>Inspektr Auditing</description>
     <modelVersion>4.0.0</modelVersion>

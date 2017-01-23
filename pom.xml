@@ -29,7 +29,7 @@
     <artifactId>inspektr</artifactId>
     <packaging>pom</packaging>
     <name>Inspektr Auditing Library</name>
-    <version>1.7.GA</version>
+    <version>1.8.GA-SNAPSHOT</version>
     <url>http://github.com/apereo/inspektr</url>
     <inceptionYear>2007</inceptionYear>
     <description>Inspektr is a non-intrusive auditing library for Java based applications.</description>
@@ -38,7 +38,7 @@
         <connection>scm:git:http://github.com/apereo/inspektr.git</connection>
         <developerConnection>scm:git:git@github.com:apereo/inspektr.git</developerConnection>
         <url>http://www.github.com/apereo/inpektr</url>
-        <tag>inspektr-1.7.GA</tag>
+        <tag>master</tag>
     </scm>
 
     <issueManagement>
