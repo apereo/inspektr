@@ -104,7 +104,7 @@ public class AuditTrailManagementAspect {
                 }
             }
             return retVal;
-        } catch (final Exception e) {
+        } catch (final Throwable e) {
             currentPrincipal = this.auditPrincipalResolver.resolveFrom(joinPoint, e);
 
             if (currentPrincipal != null) {
