@@ -138,7 +138,7 @@ public class AuditTrailManagementAspect {
             action = auditActionResolver.resolveFrom(joinPoint, retVal, audit);
 
             return retVal;
-        } catch (final Exception e) {
+        } catch (final Throwable e) {
             currentPrincipal = this.auditPrincipalResolver.resolveFrom(joinPoint, e);
             auditResource = auditResourceResolver.resolveFrom(joinPoint, e);
             action = auditActionResolver.resolveFrom(joinPoint, e, audit);
