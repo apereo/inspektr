@@ -6,9 +6,9 @@
  * Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License.  You may obtain a
  * copy of the License at the following location:
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -22,8 +22,6 @@ import org.apereo.inspektr.audit.AuditActionContext;
 import org.apereo.inspektr.audit.AuditTrailManager;
 import org.hjson.JsonObject;
 import org.hjson.Stringify;
-
-import java.io.StringWriter;
 
 /**
  * Abstract AuditTrailManager that turns the AuditActionContext into a printable String.
@@ -40,7 +38,7 @@ public abstract class AbstractStringAuditTrailManager implements AuditTrailManag
 
     /** what format should the audit log entry use? */
     private AuditFormats auditFormat = AuditFormats.DEFAULT;
-    
+
     /** Use multi-line output by default **/
     private boolean useSingleLine = false;
 
@@ -48,7 +46,7 @@ public abstract class AbstractStringAuditTrailManager implements AuditTrailManag
     private String entrySeparator = ",";
 
     protected String getEntrySeparator() {
-            return this.entrySeparator;
+        return this.entrySeparator;
     }
 
     public void setEntrySeparator(final String separator) {
@@ -66,24 +64,20 @@ public abstract class AbstractStringAuditTrailManager implements AuditTrailManag
     protected String toString(final AuditActionContext auditActionContext) {
         if (auditFormat == AuditFormats.JSON) {
             final StringBuilder builder = new StringBuilder();
-            builder.append("Audit trail record BEGIN\n");
-            builder.append("=============================================================");
             if (this.useSingleLine) {
                 builder.append(getJsonObjectForAudit(auditActionContext).toString(Stringify.PLAIN));
             }
             builder.append(getJsonObjectForAudit(auditActionContext).toString(Stringify.FORMATTED));
             builder.append("\n");
-            builder.append("=============================================================");
-            builder.append("\n\n");
             return builder.toString();
         }
-        
+
         if (this.useSingleLine) {
             return getSingleLineAuditString(auditActionContext);
         }
         return getMultiLineAuditString(auditActionContext);
     }
-        
+
     protected String getMultiLineAuditString(final AuditActionContext auditActionContext) {
         final StringBuilder builder = new StringBuilder();
         builder.append("Audit trail record BEGIN\n");
@@ -136,13 +130,13 @@ public abstract class AbstractStringAuditTrailManager implements AuditTrailManag
 
     protected JsonObject getJsonObjectForAudit(final AuditActionContext auditActionContext) {
         final JsonObject jsonObject = new JsonObject()
-                        .add("who", auditActionContext.getPrincipal())
-                        .add("what", auditActionContext.getResourceOperatedUpon())
-                        .add("action", auditActionContext.getActionPerformed())
-                        .add("application", auditActionContext.getApplicationCode())
-                        .add("when", auditActionContext.getWhenActionWasPerformed().toString())
-                        .add("clientIpAddress", auditActionContext.getClientIpAddress())
-                        .add("serverIpAddress", auditActionContext.getServerIpAddress());
+            .add("who", auditActionContext.getPrincipal())
+            .add("what", auditActionContext.getResourceOperatedUpon())
+            .add("action", auditActionContext.getActionPerformed())
+            .add("application", auditActionContext.getApplicationCode())
+            .add("when", auditActionContext.getWhenActionWasPerformed().toString())
+            .add("clientIpAddress", auditActionContext.getClientIpAddress())
+            .add("serverIpAddress", auditActionContext.getServerIpAddress());
         return jsonObject;
     }
 }
