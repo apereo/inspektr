@@ -18,10 +18,14 @@
  */
 package org.apereo.inspektr.audit.support;
 
+import com.fasterxml.jackson.core.util.MinimalPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.apereo.inspektr.audit.AuditActionContext;
 import org.apereo.inspektr.audit.AuditTrailManager;
-import org.hjson.JsonObject;
-import org.hjson.Stringify;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Abstract AuditTrailManager that turns the AuditActionContext into a printable String.
@@ -31,18 +35,25 @@ import org.hjson.Stringify;
  * @since 1.0.1
  */
 public abstract class AbstractStringAuditTrailManager implements AuditTrailManager {
+    private final ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
 
     public enum AuditFormats {
         DEFAULT, JSON
     }
 
-    /** what format should the audit log entry use? */
+    /**
+     * what format should the audit log entry use?
+     */
     private AuditFormats auditFormat = AuditFormats.DEFAULT;
 
-    /** Use multi-line output by default **/
+    /**
+     * Use multi-line output by default
+     **/
     private boolean useSingleLine = false;
 
-    /** Separator for single line log entries */
+    /**
+     * Separator for single line log entries
+     */
     private String entrySeparator = ",";
 
     protected String getEntrySeparator() {
@@ -64,11 +75,18 @@ public abstract class AbstractStringAuditTrailManager implements AuditTrailManag
     protected String toString(final AuditActionContext auditActionContext) {
         if (auditFormat == AuditFormats.JSON) {
             final StringBuilder builder = new StringBuilder();
-            if (this.useSingleLine) {
-                builder.append(getJsonObjectForAudit(auditActionContext).toString());
+
+            try {
+                if (this.useSingleLine) {
+                    final ObjectWriter writer = this.mapper.writer(new MinimalPrettyPrinter());
+                    builder.append(writer.writeValueAsString(getJsonObjectForAudit(auditActionContext)));
+                } else {
+                    builder.append(this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(getJsonObjectForAudit(auditActionContext)));
+                    builder.append("\n");
+                }
+            } catch (final Exception e) {
+                throw new IllegalArgumentException(e.getMessage(), e);
             }
-            builder.append(getJsonObjectForAudit(auditActionContext).toString(Stringify.FORMATTED));
-            builder.append("\n");
             return builder.toString();
         }
 
@@ -128,23 +146,15 @@ public abstract class AbstractStringAuditTrailManager implements AuditTrailManag
         return builder.toString();
     }
 
-    protected JsonObject getJsonObjectForAudit(final AuditActionContext auditActionContext) {
-        final JsonObject jsonObject = new JsonObject()
-            .add("who", auditActionContext.getPrincipal())
-            .add("what", auditActionContext.getResourceOperatedUpon())
-            .add("action", auditActionContext.getActionPerformed())
-            .add("application", auditActionContext.getApplicationCode())
-            .add("when", auditActionContext.getWhenActionWasPerformed().toString())
-            .add("clientIpAddress", auditActionContext.getClientIpAddress())
-            .add("serverIpAddress", auditActionContext.getServerIpAddress());
+    protected Map getJsonObjectForAudit(final AuditActionContext auditActionContext) {
+        final Map jsonObject = new LinkedHashMap<>();
+        jsonObject.put("who", auditActionContext.getPrincipal());
+        jsonObject.put("what", auditActionContext.getResourceOperatedUpon());
+        jsonObject.put("action", auditActionContext.getActionPerformed());
+        jsonObject.put("application", auditActionContext.getApplicationCode());
+        jsonObject.put("when", auditActionContext.getWhenActionWasPerformed().toString());
+        jsonObject.put("clientIpAddress", auditActionContext.getClientIpAddress());
+        jsonObject.put("serverIpAddress", auditActionContext.getServerIpAddress());
         return jsonObject;
-    }
-
-    public static void main(String[] args) {
-        final JsonObject jsonObject = new JsonObject()
-            .add("test1", 1)
-            .add("test2", 2);
-
-        System.out.println(jsonObject.toString());
     }
 }
