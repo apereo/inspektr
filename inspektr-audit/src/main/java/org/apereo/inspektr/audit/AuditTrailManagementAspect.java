@@ -6,9 +6,9 @@
  * Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License.  You may obtain a
  * copy of the License at the following location:
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,26 +18,26 @@
  */
 package org.apereo.inspektr.audit;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Aspect;
 import org.apereo.inspektr.audit.annotation.Audit;
 import org.apereo.inspektr.audit.annotation.Audits;
 import org.apereo.inspektr.audit.spi.AuditActionResolver;
 import org.apereo.inspektr.audit.spi.AuditResourceResolver;
-import org.apereo.inspektr.common.spi.PrincipalResolver;
-import org.apereo.inspektr.common.spi.ClientInfoResolver;
-import org.apereo.inspektr.common.spi.DefaultClientInfoResolver;
-import org.apereo.inspektr.common.web.ClientInfo;
 import org.apereo.inspektr.audit.spi.support.BooleanAuditActionResolver;
 import org.apereo.inspektr.audit.spi.support.DefaultAuditActionResolver;
 import org.apereo.inspektr.audit.spi.support.ObjectCreationAuditActionResolver;
+import org.apereo.inspektr.common.spi.ClientInfoResolver;
+import org.apereo.inspektr.common.spi.DefaultClientInfoResolver;
+import org.apereo.inspektr.common.spi.PrincipalResolver;
+import org.apereo.inspektr.common.web.ClientInfo;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A POJO style aspect modularizing management of an audit trail data concern.
@@ -51,7 +51,7 @@ import org.slf4j.LoggerFactory;
 public class AuditTrailManagementAspect {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuditTrailManagementAspect.class);
-    
+
     private final PrincipalResolver auditPrincipalResolver;
 
     private final Map<String, AuditActionResolver> auditActionResolvers;
@@ -65,7 +65,7 @@ public class AuditTrailManagementAspect {
     private ClientInfoResolver clientInfoResolver = new DefaultClientInfoResolver();
 
     private boolean failOnAuditFailures = true;
-    
+
     /**
      * Constructs an AuditTrailManagementAspect with the following parameters.  Also, registers some default AuditActionResolvers including the
      * {@link DefaultAuditActionResolver}, the {@link BooleanAuditActionResolver} and the {@link ObjectCreationAuditActionResolver}.
@@ -84,7 +84,7 @@ public class AuditTrailManagementAspect {
         this.auditResourceResolvers = auditResourceResolverMap;
 
     }
-    
+
     @Around(value = "@annotation(audits)", argNames = "audits")
     public Object handleAuditTrail(final ProceedingJoinPoint joinPoint, final Audits audits) throws Throwable {
         Object retVal = null;
@@ -153,11 +153,20 @@ public class AuditTrailManagementAspect {
         final ClientInfo clientInfo = this.clientInfoResolver.resolveFrom(joinPoint, retVal);
         final Date actionDate = new Date();
         final AuditPointRuntimeInfo runtimeInfo = new AspectJAuditPointRuntimeInfo(joinPoint);
+
+        assertNotNull(currentPrincipal, "'principal' cannot be null.\n" + getDiagnosticInfo(runtimeInfo));
+        assertNotNull(action, "'actionPerformed' cannot be null.\n" + getDiagnosticInfo(runtimeInfo));
+        assertNotNull(applicationCode, "'applicationCode' cannot be null.\n" + getDiagnosticInfo(runtimeInfo));
+        assertNotNull(actionDate, "'whenActionPerformed' cannot be null.\n" + getDiagnosticInfo(runtimeInfo));
+        assertNotNull(clientInfo.getClientIpAddress(), "'clientIpAddress' cannot be null.\n" + getDiagnosticInfo(runtimeInfo));
+        assertNotNull(clientInfo.getServerIpAddress(), "'serverIpAddress' cannot be null.\n" + getDiagnosticInfo(runtimeInfo));
+
         for (final String auditableResource : auditableResources) {
+            assertNotNull(auditableResource, "'resourceOperatedUpon' cannot be null.\n" + getDiagnosticInfo(runtimeInfo));
             final AuditActionContext auditContext =
-                    new AuditActionContext(currentPrincipal, auditableResource, action, applicationCode,
-                            actionDate, clientInfo.getClientIpAddress(), clientInfo.getServerIpAddress(), runtimeInfo);
-           
+                new AuditActionContext(currentPrincipal, auditableResource, action, applicationCode,
+                    actionDate, clientInfo.getClientIpAddress(), clientInfo.getServerIpAddress());
+
             try {
                 for (final AuditTrailManager manager : auditTrailManagers) {
                     manager.record(auditContext);
@@ -166,9 +175,9 @@ public class AuditTrailManagementAspect {
                 if (this.failOnAuditFailures) {
                     throw e;
                 }
-                LOG.error("Failed to record audit context for " 
-                        + auditContext.getActionPerformed()
-                        + " and principal " + auditContext.getPrincipal(), e);
+                LOG.error("Failed to record audit context for "
+                    + auditContext.getActionPerformed()
+                    + " and principal " + auditContext.getPrincipal(), e);
             }
         }
     }
@@ -179,5 +188,15 @@ public class AuditTrailManagementAspect {
 
     public void setClientInfoResolver(final ClientInfoResolver factory) {
         this.clientInfoResolver = factory;
+    }
+
+    private String getDiagnosticInfo(AuditPointRuntimeInfo runtimeInfo) {
+        return "Check the correctness of @Audit annotation at the following audit point: " + runtimeInfo.asString();
+    }
+
+    private void assertNotNull(final Object o, final String message) {
+        if (o == null) {
+            throw new IllegalArgumentException(message);
+        }
     }
 }

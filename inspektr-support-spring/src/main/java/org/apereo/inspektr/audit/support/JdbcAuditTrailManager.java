@@ -127,6 +127,90 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 /**
  * Copyright (C) 2010 Rutgers, the State University of New Jersey.
@@ -146,7 +230,6 @@
 package org.apereo.inspektr.audit.support;
 
 import org.apereo.inspektr.audit.AuditActionContext;
-import org.apereo.inspektr.audit.AuditPointRuntimeInfo;
 import org.apereo.inspektr.audit.AuditTrailManager;
 import org.apereo.inspektr.common.Cleanable;
 import org.slf4j.Logger;
@@ -157,10 +240,12 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.Assert;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashSet;
@@ -268,23 +353,24 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
             final String sql = String.format(SELECT_BY_DATE_SQL_TEMPLATE, tableName, sinceDate);
             Set<AuditActionContext> results = new LinkedHashSet<>();
             getJdbcTemplate().query(sql, resultSet -> {
-                final AuditActionContext audit = new AuditActionContext(
-                    resultSet.getString("AUD_USER"),
-                    resultSet.getString("AUD_RESOURCE"),
-                    resultSet.getString("AUD_ACTION"),
-                    resultSet.getString("APPLIC_CD"),
-                    resultSet.getDate("AUD_DATE"),
-                    resultSet.getString("AUD_CLIENT_IP"),
-                    resultSet.getString("AUD_SERVER_IP"),
-                    new AuditPointRuntimeInfo() {
-                        private static final long serialVersionUID = -6186858409572762051L;
+                final String principal = resultSet.getString("AUD_USER");
+                final String resource = resultSet.getString("AUD_RESOURCE");
+                final String clientIp = resultSet.getString("AUD_CLIENT_IP");
+                final String serverIp = resultSet.getString("AUD_SERVER_IP");
+                final Date audDate = resultSet.getDate("AUD_DATE");
+                final String appCode = resultSet.getString("APPLIC_CD");
+                final String action = resultSet.getString("AUD_ACTION");
 
-                        @Override
-                        public String asString() {
-                            return "Audit Action Content";
-                        }
-                    }
-                );
+                Assert.notNull(principal, "AUD_USER cannot be null");
+                Assert.notNull(resource, "AUD_RESOURCE cannot be null");
+                Assert.notNull(clientIp, "AUD_CLIENT_IP cannot be null");
+                Assert.notNull(serverIp, "AUD_SERVER_IP cannot be null");
+                Assert.notNull(audDate, "AUD_DATE cannot be null");
+                Assert.notNull(appCode, "APPLIC_CD cannot be null");
+                Assert.notNull(action, "AUD_ACTION cannot be null");
+
+                final AuditActionContext audit = new AuditActionContext(principal, resource,
+                    action, appCode, audDate, clientIp, serverIp);
                 results.add(audit);
             });
             return results;
