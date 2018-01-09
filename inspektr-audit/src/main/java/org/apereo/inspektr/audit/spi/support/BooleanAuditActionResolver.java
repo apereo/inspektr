@@ -46,6 +46,7 @@ public class BooleanAuditActionResolver extends AbstractSuffixAwareAuditActionRe
     }
 
 
+    @Override
     public String resolveFrom(final JoinPoint auditableTarget, final Object retval, final Audit audit) {
         final Boolean bool = (Boolean) retval;
         final String action = audit.action();
@@ -53,6 +54,7 @@ public class BooleanAuditActionResolver extends AbstractSuffixAwareAuditActionRe
         return action + (bool ? getSuccessSuffix() : getFailureSuffix());
     }
 
+    @Override
     public String resolveFrom(final JoinPoint auditableTarget, final Exception exception, final Audit audit) {
         return audit.action() + getFailureSuffix();
     }

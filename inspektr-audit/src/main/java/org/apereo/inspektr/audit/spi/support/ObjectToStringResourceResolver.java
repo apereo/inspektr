@@ -28,10 +28,12 @@ import org.aspectj.lang.JoinPoint;
  */
 public class ObjectToStringResourceResolver implements AuditResourceResolver {
 
+    @Override
     public String[] resolveFrom(JoinPoint target, Object returnValue) {
         return new String[]{target.getTarget().toString()};
     }
 
+    @Override
     public String[] resolveFrom(JoinPoint target, Exception exception) {
         return new String[]{target.getTarget().toString() + "__EXCEPTION: [" + exception.getMessage() + "]"};
     }

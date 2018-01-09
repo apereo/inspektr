@@ -6,15 +6,127 @@
  * Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License.  You may obtain a
  * copy of the License at the following location:
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * <p>
+ * Copyright (C) 2010 Rutgers, the State University of New Jersey.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 /**
  * Copyright (C) 2010 Rutgers, the State University of New Jersey.
@@ -33,11 +145,8 @@
  */
 package org.apereo.inspektr.audit.support;
 
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import org.apereo.inspektr.audit.AuditActionContext;
+import org.apereo.inspektr.audit.AuditPointRuntimeInfo;
 import org.apereo.inspektr.audit.AuditTrailManager;
 import org.apereo.inspektr.common.Cleanable;
 import org.slf4j.Logger;
@@ -45,12 +154,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * <p>Implementation of {@link AuditTrailManager} to persist the
@@ -77,10 +194,12 @@ import javax.validation.constraints.Size;
 public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implements AuditTrailManager, Cleanable, DisposableBean {
 
     private static final String INSERT_SQL_TEMPLATE = "INSERT INTO %s " +
-            "(AUD_USER, AUD_CLIENT_IP, AUD_SERVER_IP, AUD_RESOURCE, AUD_ACTION, APPLIC_CD, AUD_DATE) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        "(AUD_USER, AUD_CLIENT_IP, AUD_SERVER_IP, AUD_RESOURCE, AUD_ACTION, APPLIC_CD, AUD_DATE) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     private static final String DELETE_SQL_TEMPLATE = "DELETE FROM %s %s";
+
+    private static final String SELECT_BY_DATE_SQL_TEMPLATE = "SELECT * FROM %s WHERE AUD_DATE<='%s' ORDER BY AUD_DATE DESC";
 
     private static final int DEFAULT_COLUMN_LENGTH = 100;
 
@@ -113,18 +232,63 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
 
     private boolean defaultExecutorService = true;
 
+    private boolean asynchronous = true;
+
     /**
      * Criteria used to determine records that should be deleted on cleanup
      */
     private WhereClauseMatchCriteria cleanupCriteria = new NoMatchWhereClauseMatchCriteria();
 
-
     public JdbcAuditTrailManager(final TransactionTemplate transactionTemplate) {
         this.transactionTemplate = transactionTemplate;
     }
 
+    public void setAsynchronous(final boolean asynchronous) {
+        this.asynchronous = asynchronous;
+    }
+
+    @Override
     public void record(final AuditActionContext auditActionContext) {
-        this.executorService.execute(new LoggingTask(auditActionContext, this.transactionTemplate, this.columnLength));
+        final LoggingTask command = new LoggingTask(auditActionContext, this.transactionTemplate, this.columnLength);
+        if (this.asynchronous) {
+            this.executorService.execute(command);
+        } else {
+            command.run();
+        }
+    }
+
+    @Override
+    public Set<AuditActionContext> getAuditRecordsSince(final LocalDate sinceDate) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00.000000");
+        return getAuditRecordsSince(sinceDate.format(formatter));
+    }
+
+    private Set<AuditActionContext> getAuditRecordsSince(final String sinceDate) {
+        return this.transactionTemplate.execute((TransactionCallback<Set>) transactionStatus -> {
+            final String sql = String.format(SELECT_BY_DATE_SQL_TEMPLATE, tableName, sinceDate);
+            Set<AuditActionContext> results = new LinkedHashSet<>();
+            getJdbcTemplate().query(sql, resultSet -> {
+                final AuditActionContext audit = new AuditActionContext(
+                    resultSet.getString("AUD_USER"),
+                    resultSet.getString("AUD_RESOURCE"),
+                    resultSet.getString("AUD_ACTION"),
+                    resultSet.getString("APPLIC_CD"),
+                    resultSet.getDate("AUD_DATE"),
+                    resultSet.getString("AUD_CLIENT_IP"),
+                    resultSet.getString("AUD_SERVER_IP"),
+                    new AuditPointRuntimeInfo() {
+                        private static final long serialVersionUID = -6186858409572762051L;
+
+                        @Override
+                        public String asString() {
+                            return "Audit Action Content";
+                        }
+                    }
+                );
+                results.add(audit);
+            });
+            return results;
+        });
     }
 
     protected class LoggingTask implements Runnable {
@@ -141,26 +305,28 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
             this.columnLength = columnLength;
         }
 
+        @Override
         public void run() {
             this.transactionTemplate
-                    .execute(new TransactionCallbackWithoutResult() {
-                        protected void doInTransactionWithoutResult(final TransactionStatus transactionStatus) {
-                            final String userId = auditActionContext.getPrincipal().length() <= columnLength ? auditActionContext.getPrincipal() : auditActionContext.getPrincipal().substring(0, columnLength);
-                            final String resource = auditActionContext.getResourceOperatedUpon().length() <= columnLength ? auditActionContext.getResourceOperatedUpon() : auditActionContext.getResourceOperatedUpon().substring(0, columnLength);
-                            final String action = auditActionContext.getActionPerformed().length() <= columnLength ? auditActionContext.getActionPerformed() : auditActionContext.getActionPerformed().substring(0, columnLength);
+                .execute(new TransactionCallbackWithoutResult() {
+                    @Override
+                    protected void doInTransactionWithoutResult(final TransactionStatus transactionStatus) {
+                        final String userId = auditActionContext.getPrincipal().length() <= columnLength ? auditActionContext.getPrincipal() : auditActionContext.getPrincipal().substring(0, columnLength);
+                        final String resource = auditActionContext.getResourceOperatedUpon().length() <= columnLength ? auditActionContext.getResourceOperatedUpon() : auditActionContext.getResourceOperatedUpon().substring(0, columnLength);
+                        final String action = auditActionContext.getActionPerformed().length() <= columnLength ? auditActionContext.getActionPerformed() : auditActionContext.getActionPerformed().substring(0, columnLength);
 
-                            getJdbcTemplate()
-                                    .update(
-                                            String.format(INSERT_SQL_TEMPLATE, tableName),
-                                            userId,
-                                            auditActionContext.getClientIpAddress(),
-                                            auditActionContext.getServerIpAddress(),
-                                            resource,
-                                            action,
-                                            auditActionContext.getApplicationCode(),
-                                            auditActionContext.getWhenActionWasPerformed());
-                        }
-                    });
+                        getJdbcTemplate()
+                            .update(
+                                String.format(INSERT_SQL_TEMPLATE, tableName),
+                                userId,
+                                auditActionContext.getClientIpAddress(),
+                                auditActionContext.getServerIpAddress(),
+                                resource,
+                                action,
+                                auditActionContext.getApplicationCode(),
+                                auditActionContext.getWhenActionWasPerformed());
+                    }
+                });
         }
     }
 
@@ -184,15 +350,18 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
     /**
      * We only shut down the default executor service.  We assume, that if you've injected one, its being managed elsewhere.
      */
-    public void destroy() throws Exception {
+    @Override
+    public void destroy() {
         if (this.defaultExecutorService) {
             this.executorService.shutdown();
         }
     }
 
+    @Override
     public void clean() {
         this.transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
+            @Override
             protected void doInTransactionWithoutResult(final TransactionStatus transactionStatus) {
                 final String sql = String.format(DELETE_SQL_TEMPLATE, tableName, cleanupCriteria);
                 final List<?> params = cleanupCriteria.getParameterValues();

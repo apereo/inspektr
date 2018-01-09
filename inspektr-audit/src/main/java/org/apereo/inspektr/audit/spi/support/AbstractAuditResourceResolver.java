@@ -32,10 +32,12 @@ import org.apereo.inspektr.audit.spi.AuditResourceResolver;
 public abstract class AbstractAuditResourceResolver implements
         AuditResourceResolver {
 
+    @Override
     public final String[] resolveFrom(final JoinPoint joinPoint, final Object retVal) {
         return createResource(joinPoint.getArgs());
     }
 
+    @Override
     public final String[] resolveFrom(final JoinPoint joinPoint, final Exception e) {
         return createResource(joinPoint.getArgs());
     }

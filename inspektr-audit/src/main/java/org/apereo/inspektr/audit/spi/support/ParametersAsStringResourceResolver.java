@@ -30,6 +30,7 @@ import java.util.List;
  */
 public class ParametersAsStringResourceResolver extends AbstractAuditResourceResolver {
 
+    @Override
     protected String[] createResource(final Object[] args) {
         final List<String> stringArgs = new ArrayList<String>();
 

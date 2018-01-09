@@ -35,6 +35,7 @@ import org.apereo.inspektr.audit.spi.AuditResourceResolver;
  */
 public class ReturnValueAsStringResourceResolver implements AuditResourceResolver {
 
+    @Override
     public String[] resolveFrom(final JoinPoint auditableTarget, final Object retval) {
         if (retval instanceof Collection) {
             final Collection c = (Collection) retval;
@@ -65,6 +66,7 @@ public class ReturnValueAsStringResourceResolver implements AuditResourceResolve
         return new String[] {retval.toString()};
     }
 
+    @Override
     public String[] resolveFrom(final JoinPoint auditableTarget, final Exception exception) {
         final String message = exception.getMessage();
         if (message != null) {

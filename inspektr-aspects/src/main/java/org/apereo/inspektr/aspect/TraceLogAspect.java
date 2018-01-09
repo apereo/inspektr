@@ -95,4 +95,7 @@ public class TraceLogAspect {
         return LoggerFactory.getLogger(getClass());
     }
 
+    public static void main(String[] args) {
+        
+    }
 }

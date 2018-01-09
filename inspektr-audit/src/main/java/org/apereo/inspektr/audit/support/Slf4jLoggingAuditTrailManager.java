@@ -6,9 +6,9 @@
  * Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License.  You may obtain a
  * copy of the License at the following location:
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -23,20 +23,28 @@ import org.apereo.inspektr.audit.AuditTrailManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * <code>AuditTrailManager</code> that dumps auditable information to a configured logger.
- * 
+ *
  * @author Dmitriy Kopylenko
  * @version $Revision$ $Date$
- * @since 1.0
  * @see AuditTrailManager
+ * @since 1.0
  */
 public class Slf4jLoggingAuditTrailManager extends AbstractStringAuditTrailManager {
-    
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+    @Override
     public void record(final AuditActionContext auditActionContext) {
-
         log.info(toString(auditActionContext));
+    }
+
+    @Override
+    public Set<AuditActionContext> getAuditRecordsSince(final LocalDate sinceDate) {
+        return new HashSet<>();
     }
 }

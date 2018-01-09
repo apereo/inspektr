@@ -35,6 +35,7 @@ public class AspectJAuditPointRuntimeInfo  implements AuditPointRuntimeInfo {
         this.currentJoinPoint = currentJoinPoint;
     }
 
+    @Override
     public String asString() {
         return this.currentJoinPoint.toLongString();
     }

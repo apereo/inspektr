@@ -49,10 +49,12 @@ public class ClientInfoThreadLocalFilter implements Filter {
     private boolean useServerHostAddress;
     private String alternateServerAddrHeaderName;
     
+    @Override
     public void destroy() {
         // nothing to do here
     }
 
+    @Override
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain filterChain) throws IOException, ServletException {
         try {
             final ClientInfo clientInfo =
@@ -67,6 +69,7 @@ public class ClientInfoThreadLocalFilter implements Filter {
         }
     }
 
+    @Override
     public void init(final FilterConfig filterConfig) throws ServletException {
         this.alternateLocalAddrHeaderName = filterConfig.getInitParameter(CONST_IP_ADDRESS_HEADER);
         this.alternateServerAddrHeaderName = filterConfig.getInitParameter(CONST_SERVER_IP_ADDRESS_HEADER);

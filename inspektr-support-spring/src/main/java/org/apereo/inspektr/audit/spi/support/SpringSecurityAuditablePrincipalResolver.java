@@ -33,14 +33,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class SpringSecurityAuditablePrincipalResolver implements PrincipalResolver {
 
+    @Override
     public String resolveFrom(final JoinPoint auditableTarget, final Object retval) {
         return getFromSecurityContext();
     }
 
+    @Override
     public String resolveFrom(final JoinPoint auditableTarget, final Exception exception) {
         return getFromSecurityContext();
     }
 
+    @Override
     public String resolve() {
         return getFromSecurityContext();
     }

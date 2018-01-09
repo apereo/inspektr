@@ -69,6 +69,7 @@ public class DefaultErrorLogManager implements ErrorLogManager {
         this.currentContextPrincipalResolver = resolver;
     }
 
+    @Override
     public void recordError(final String errorDescription) {
         String principal = resolvePrincipal();
         for (ErrorReporter r : this.errorReporters) {
@@ -76,6 +77,7 @@ public class DefaultErrorLogManager implements ErrorLogManager {
         }
     }
 
+    @Override
     public void recordError(final Throwable throwable) {
         String principal = resolvePrincipal();
         for (final ErrorReporter r : this.errorReporters) {
@@ -83,6 +85,7 @@ public class DefaultErrorLogManager implements ErrorLogManager {
         }
     }
 
+    @Override
     public List<ErrorReporter> getErrorReporters() {
         return this.errorReporters;
     }

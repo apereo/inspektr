@@ -49,10 +49,12 @@ public class DefaultAuditActionResolver extends AbstractSuffixAwareAuditActionRe
         super(successSuffix, failureSuffix);
     }
 
+    @Override
     public String resolveFrom(final JoinPoint auditableTarget, final Object retval, final Audit audit) {
         return audit.action() + getSuccessSuffix();
     }
 
+    @Override
     public String resolveFrom(final JoinPoint auditableTarget, final Exception exception, final Audit audit) {
         return audit.action() + getFailureSuffix();
     }

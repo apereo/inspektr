@@ -46,6 +46,7 @@ public class ErrorLoggingFilter extends OncePerRequestFilter {
     @NotNull
     private ErrorLogManager errorLogManager;
 
+    @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
 
         try {

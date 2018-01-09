@@ -36,6 +36,7 @@ public class DefaultClientInfoResolver implements ClientInfoResolver {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
+    @Override
     public ClientInfo resolveFrom(final JoinPoint joinPoint, final Object retVal) {
         final ClientInfo clientInfo = ClientInfoHolder.getClientInfo();
 

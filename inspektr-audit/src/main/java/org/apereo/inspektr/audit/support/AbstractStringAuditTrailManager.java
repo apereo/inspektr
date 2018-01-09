@@ -65,7 +65,7 @@ public abstract class AbstractStringAuditTrailManager implements AuditTrailManag
         if (auditFormat == AuditFormats.JSON) {
             final StringBuilder builder = new StringBuilder();
             if (this.useSingleLine) {
-                builder.append(getJsonObjectForAudit(auditActionContext).toString(Stringify.PLAIN));
+                builder.append(getJsonObjectForAudit(auditActionContext).toString());
             }
             builder.append(getJsonObjectForAudit(auditActionContext).toString(Stringify.FORMATTED));
             builder.append("\n");
@@ -138,5 +138,13 @@ public abstract class AbstractStringAuditTrailManager implements AuditTrailManag
             .add("clientIpAddress", auditActionContext.getClientIpAddress())
             .add("serverIpAddress", auditActionContext.getServerIpAddress());
         return jsonObject;
+    }
+
+    public static void main(String[] args) {
+        final JsonObject jsonObject = new JsonObject()
+            .add("test1", 1)
+            .add("test2", 2);
+
+        System.out.println(jsonObject.toString());
     }
 }

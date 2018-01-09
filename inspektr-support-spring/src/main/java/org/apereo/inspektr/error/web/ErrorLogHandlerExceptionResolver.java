@@ -61,6 +61,7 @@ public class ErrorLogHandlerExceptionResolver implements HandlerExceptionResolve
         this.errorLogManager = errorLogManager;
     }
 
+    @Override
     public ModelAndView resolveException(final HttpServletRequest request, final HttpServletResponse response, final Object handler, final Exception exception) {
         this.errorLogManager.recordError(exception);
 
@@ -77,6 +78,7 @@ public class ErrorLogHandlerExceptionResolver implements HandlerExceptionResolve
         this.order = order;
     }
 
+    @Override
     public int getOrder() {
         return this.order;
     }

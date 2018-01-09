@@ -37,11 +37,13 @@ public class Slf4jLoggingErrorReporter implements ErrorReporter {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+    @Override
     public void reportError(final String applicationCode, final String principal,
-            final String description) {
+                            final String description) {
         logErrorRecord(applicationCode, principal, description);
     }
 
+    @Override
     public void reportError(final String applicationCode, final String principal, final Throwable throwable) {
         final StackTraceElement[] stackTraceElements = throwable.getStackTrace();
         final StringBuilder builder = new StringBuilder(512);

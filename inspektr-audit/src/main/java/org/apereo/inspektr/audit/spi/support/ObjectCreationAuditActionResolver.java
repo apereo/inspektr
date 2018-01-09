@@ -43,12 +43,14 @@ public class ObjectCreationAuditActionResolver extends AbstractSuffixAwareAuditA
     }
 
 
+    @Override
     public String resolveFrom(final JoinPoint auditableTarget, final Object retval, final Audit audit) {
         final String action = audit.action();
 
         return action + (retval == null ? getFailureSuffix() : getSuccessSuffix());
     }
 
+    @Override
     public String resolveFrom(final JoinPoint auditableTarget, final Exception exception, final Audit audit) {
         return audit.action() + getFailureSuffix();
     }

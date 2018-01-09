@@ -41,6 +41,7 @@ public interface WhereClauseMatchCriteria {
    * the return value can be directly appended to a SQL statement with no
    * where clause.
    */
+  @Override
   String toString();
 
 }
