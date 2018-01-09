@@ -1,25 +1,13 @@
-#
-# Licensed to Apereo under one or more contributor license
-# agreements. See the NOTICE file distributed with this work
-# for additional information regarding copyright ownership.
-# Apereo licenses this file to you under the Apache License,
-# Version 2.0 (the "License"); you may not use this file
-# except in compliance with the License.  You may obtain a
-# copy of the License at the following location:
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-# KIND, either express or implied.  See the License for the
-# specific language governing permissions and limitations
-# under the License.
-#
-
-before_install:
-- mvn -v
-- java -version
+cache:
+  directories:
+  - "$HOME/.m2/repository"
 script: mvn install
 language: java
-sudo: false
+sudo: required
+after_success:
+- chmod -R 777 ./travis/deploy-to-sonatype.sh
+- "./travis/deploy-to-sonatype.sh"
+env:
+  global:
+  - secure: JWSDmaKsYeBJCJd44R9ce2agUdVhGWXzeo0Yzz0VCfGx+O22v470/GKXxpXWnEmKXQ3iiNqYvGR8irar7lMeQbnYkz1O+Y0ySRtNrESu676pjdPQPX1b9Ap+n0G/oET6ElpAJrr8Ogw7v3B1QE3Zpkv/e8OtEkWKDp9MDIxH/6A9X1Etn4dbP0XbNZbItEbGFl1HI4Nx/np8KWIkLUmcbR7nLJ+jeC69v4TQDQwXTgGKZdxMVa3yrP10OFZDKXxDzaoJYO67mOnRnz4lU6mT9uQH7l42VOJM3k73eob51OureuyFELpfhaJBO/b75rEG9hOkficacmNmdlAvKKlaEtAmc+6gTvAtHa7V+U+tvVylzcdCt0/ojwfVg6wC+7SmEB+6slEl5Mx+ceN7dkj4BuWkvldExiwUUoLY+6u1YMOA5e/2jw2MHUK11OYXOaCOY7P6jBCGuyrtV0t6YsPpr+/YScb4J7/jxwUz9sf8B9kjygjwukcEI+C5juT1zMzqdaOuVA8nKILBOFFcU0DmTqJp9WlIlF9kwMnXkhiStBUUjF/l04MeZ/rIt1154CO2CqD1/pgY+y4Kg5sI1kZtjjrF1U33pRTUO7SiBB34A6iR46S3bYavUHoTc5z7IngQ3JEM8Za9gtP59H+TK19QUEbTbwdwCi3ZE9JC8BM3INc=
+  - secure: o6vgH9YOS6DhDRZZGRgLAy7L2nGFwiCCP9heDCfNc1k3IXDdo9Y+2QYX0Q2OCtzGv7zKF+LxxD0XzWlywxROD8sSEaxrqJ78yhLNpEVpVYfS3xCZJN/6A04aKP7R7pDeRTjt5EIK+1/v+VjW2redRSEBGlF459vAuGRrKZjHl/SMT4CGkcaJtSGy8uEhF3doJr2wOB9emotMraHYP9foB6Sa10CBNUrAxop4DHp0oWiEaxdlisCPnfFdF+lom91no25CUl04SrRO/y8JoZGyigJr6t4p+2ocZssS9p5s2+KijTKn2Ihor89s2qp9QXfhe5MbUGVxF/y4SX6P5skPQRpDN9lQYMU66iZ1gcoyoBnI2qwksSV7+NtQjFXvcWbsMLNC+UO6AnjpGsrCYxnTarSPj2EKNIKLOXYY5np7l4g8CIEWhfieff/d06j570/Wxr9TkXx9x1juysFid2S/VSKCBas1YCe+VXGYbAcS6J7DnzHMXi7q1rrckfUuwBgB9Lkqw5/nhiY7Vct2kX3a4yMK/zp0FuMeoL0q9ReSflHf1tUjClvOFGQ9o6etcNwZ4Bu64zVa+XuPczVuNtimhUsmPh0v6IDufruUrdPNR+nh0YGxa26s2dd+wf6Wx5bSkUcpzHlOhxthBb5Rfk/1edlFO5qr3ZAbXJ71HPvSVaU=
