@@ -110,7 +110,7 @@ public class AuditTrailManagementAspect {
             if (currentPrincipal != null) {
                 for (int i = 0; i < audits.value().length; i++) {
                     auditableResources[i] = this.auditResourceResolvers.get(audits.value()[i].resourceResolverName()).resolveFrom(joinPoint, e);
-                    actions[i] = auditActionResolvers.get(audits.value()[i].actionResolverName()).resolveFrom(joinPoint, e, audits.value()[i]);
+                    actions[i] = auditActionResolvers.get(audits.value()[i].actionResolverName()).resolveFrom(joinPoint, (Exception) e, audits.value()[i]);
                 }
             }
             throw e;
@@ -141,7 +141,7 @@ public class AuditTrailManagementAspect {
         } catch (final Throwable e) {
             currentPrincipal = this.auditPrincipalResolver.resolveFrom(joinPoint, e);
             auditResource = auditResourceResolver.resolveFrom(joinPoint, e);
-            action = auditActionResolver.resolveFrom(joinPoint, e, audit);
+            action = auditActionResolver.resolveFrom(joinPoint, (Exception) e, audit);
             throw e;
         } finally {
             executeAuditCode(currentPrincipal, auditResource, joinPoint, retVal, action, audit);
