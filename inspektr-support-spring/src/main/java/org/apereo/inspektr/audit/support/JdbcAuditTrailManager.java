@@ -284,7 +284,7 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
 
     private static final String DELETE_SQL_TEMPLATE = "DELETE FROM %s %s";
 
-    private static final String SELECT_BY_DATE_SQL_TEMPLATE = "SELECT * FROM %s WHERE AUD_DATE<='%s' ORDER BY AUD_DATE DESC";
+    private static final String SELECT_BY_DATE_SQL_TEMPLATE = "SELECT * FROM %s WHERE AUD_DATE>='%s' ORDER BY AUD_DATE DESC";
 
     private static final int DEFAULT_COLUMN_LENGTH = 100;
 
