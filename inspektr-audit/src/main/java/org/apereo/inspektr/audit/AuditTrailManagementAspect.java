@@ -104,7 +104,8 @@ public class AuditTrailManagementAspect {
                 }
             }
             return retVal;
-        } catch (final Throwable e) {
+        } catch (final Throwable t) {
+            final Exception e = wrapIfNecessary(t);
             currentPrincipal = this.auditPrincipalResolver.resolveFrom(joinPoint, e);
 
             if (currentPrincipal != null) {
@@ -113,7 +114,7 @@ public class AuditTrailManagementAspect {
                     actions[i] = auditActionResolvers.get(audits.value()[i].actionResolverName()).resolveFrom(joinPoint, e, audits.value()[i]);
                 }
             }
-            throw e;
+            throw t;
         } finally {
             for (int i = 0; i < audits.value().length; i++) {
                 executeAuditCode(currentPrincipal, auditableResources[i], joinPoint, retVal, actions[i], audits.value()[i]);
@@ -138,11 +139,12 @@ public class AuditTrailManagementAspect {
             action = auditActionResolver.resolveFrom(joinPoint, retVal, audit);
 
             return retVal;
-        } catch (final Throwable e) {
+        } catch (final Throwable t) {
+            final Exception e = wrapIfNecessary(t);
             currentPrincipal = this.auditPrincipalResolver.resolveFrom(joinPoint, e);
             auditResource = auditResourceResolver.resolveFrom(joinPoint, e);
             action = auditActionResolver.resolveFrom(joinPoint, e, audit);
-            throw e;
+            throw t;
         } finally {
             executeAuditCode(currentPrincipal, auditResource, joinPoint, retVal, action, audit);
         }
@@ -198,5 +200,9 @@ public class AuditTrailManagementAspect {
         if (o == null) {
             throw new IllegalArgumentException(message);
         }
+    }
+
+    private Exception wrapIfNecessary(final Throwable t) {
+        return t instanceof Exception ? (Exception) t : new Exception(t);
     }
 }
