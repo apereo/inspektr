@@ -18,6 +18,9 @@
  */
 package org.apereo.inspektr.audit;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -39,40 +42,53 @@ public class AuditActionContext implements Serializable {
     /**
      * This is <i>WHO</i>
      */
+    @JsonProperty
     private final String principal;
 
     /**
      * This is <i>WHAT</i>
      */
+    @JsonProperty
     private final String resourceOperatedUpon;
 
     /**
      * This is <i>ACTION</i>
      */
+    @JsonProperty
     private final String actionPerformed;
 
     /**
      * This is <i>Application from which operation has been performed</i>
      */
+    @JsonProperty
     private final String applicationCode;
 
     /**
      * This is <i>WHEN</i>
      */
+    @JsonProperty
     private final Date whenActionWasPerformed;
 
     /**
      * Client IP Address
      */
+    @JsonProperty
     private final String clientIpAddress;
 
     /**
      * Server IP Address
      */
+    @JsonProperty
     private final String serverIpAddress;
 
-    public AuditActionContext(final String principal, final String resourceOperatedUpon, final String actionPerformed, final String applicationCode,
-                              final Date whenActionWasPerformed, final String clientIpAddress, final String serverIpAddress) {
+    @JsonCreator
+    public AuditActionContext(@JsonProperty("principal") final String principal,
+                       @JsonProperty("resourceOperatedUpon") final String resourceOperatedUpon,
+                       @JsonProperty("actionPerformed") final String actionPerformed,
+                       @JsonProperty("applicationCode") final String applicationCode,
+                       @JsonProperty("whenActionWasPerformed") final Date whenActionWasPerformed,
+                       @JsonProperty("clientIpAddress") final String clientIpAddress,
+                       @JsonProperty("serverIpAddress") final String serverIpAddress) {
 
         this.principal = principal;
         this.resourceOperatedUpon = resourceOperatedUpon;
