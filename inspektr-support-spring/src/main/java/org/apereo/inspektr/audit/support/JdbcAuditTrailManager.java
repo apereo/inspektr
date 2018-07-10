@@ -348,7 +348,7 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
         return getAuditRecordsSince(sinceDate.format(formatter));
     }
 
-    private Set<AuditActionContext> getAuditRecordsSince(final String sinceDate) {
+    private Set<? extends AuditActionContext> getAuditRecordsSince(final String sinceDate) {
         return this.transactionTemplate.execute((TransactionCallback<Set>) transactionStatus -> {
             final String sql = String.format(SELECT_BY_DATE_SQL_TEMPLATE, tableName, sinceDate);
             Set<AuditActionContext> results = new LinkedHashSet<>();
