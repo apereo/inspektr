@@ -343,7 +343,7 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
     }
 
     @Override
-    public Set<AuditActionContext> getAuditRecordsSince(final LocalDate sinceDate) {
+    public Set<? extends AuditActionContext> getAuditRecordsSince(final LocalDate sinceDate) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00.000000");
         return getAuditRecordsSince(sinceDate.format(formatter));
     }

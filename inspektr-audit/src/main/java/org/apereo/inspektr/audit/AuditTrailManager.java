@@ -46,5 +46,5 @@ public interface AuditTrailManager {
      * @param sinceDate the since date
      * @return the audit records since
      */
-    Set<AuditActionContext> getAuditRecordsSince(LocalDate sinceDate);
+    Set<? extends AuditActionContext> getAuditRecordsSince(LocalDate sinceDate);
 }
