@@ -44,7 +44,7 @@ public class Slf4jLoggingAuditTrailManager extends AbstractStringAuditTrailManag
     }
 
     @Override
-    public Set<AuditActionContext> getAuditRecordsSince(final LocalDate sinceDate) {
+    public Set<? extends AuditActionContext> getAuditRecordsSince(final LocalDate sinceDate) {
         return new HashSet<>();
     }
 }
