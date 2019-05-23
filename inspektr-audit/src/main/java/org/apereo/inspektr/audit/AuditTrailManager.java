@@ -47,4 +47,9 @@ public interface AuditTrailManager {
      * @return the audit records since
      */
     Set<? extends AuditActionContext> getAuditRecordsSince(LocalDate sinceDate);
+
+    /**
+     * Remove all.
+     */
+    void removeAll();
 }
