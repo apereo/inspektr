@@ -274,7 +274,7 @@
         <aspectj.version>1.8.5</aspectj.version>
         <jackson.version>2.9.3</jackson.version>
         <javax.servlet.version>4.0.1</javax.servlet.version>
-        <javax.validation.version>1.0.0.GA</javax.validation.version>
+        <javax.validation.version>2.0.1.Final</javax.validation.version>
 
         <maven-aspectj-plugin.version>1.7</maven-aspectj-plugin.version>
         <project.build.sourceVersion>1.8</project.build.sourceVersion>
