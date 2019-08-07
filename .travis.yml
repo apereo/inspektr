@@ -4,6 +4,7 @@ cache:
 script: mvn install
 language: java
 sudo: required
+jdk: openjdk8
 after_success:
 - chmod -R 777 ./travis/deploy-to-sonatype.sh
 - "./travis/deploy-to-sonatype.sh"
