@@ -28,7 +28,7 @@ package org.apereo.inspektr.common.web;
  */
 public class ClientInfoHolder {
 
-    private static final ThreadLocal<ClientInfo> clientInfoHolder = new ThreadLocal<ClientInfo>();
+    private static final ThreadLocal<ClientInfo> clientInfoHolder = new InheritableThreadLocal<ClientInfo>();
 
     public static void setClientInfo(final ClientInfo clientInfo) {
         clientInfoHolder.set(clientInfo);
