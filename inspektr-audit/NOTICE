@@ -17,11 +17,13 @@ under the License.
 
 This project includes:
   AspectJ runtime under Eclipse Public License - v 1.0
-  Bean Validation API under Apache License, Version 2.0
+  Bean Validation API under Apache License 2.0
   Hamcrest Core under New BSD License
-  Hjson Library under The MIT License (MIT)
   Inspektr - Auditing API under Apache 2.0 License
   Inspektr - Common API under Apache 2.0 License
+  Jackson-annotations under The Apache Software License, Version 2.0
+  Jackson-core under The Apache Software License, Version 2.0
+  jackson-databind under The Apache Software License, Version 2.0
   JUnit under Eclipse Public License 1.0
   SLF4J API Module under MIT License
 
