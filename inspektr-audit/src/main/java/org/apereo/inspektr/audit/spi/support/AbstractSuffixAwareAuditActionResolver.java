@@ -24,7 +24,7 @@ import org.apereo.inspektr.audit.spi.AuditActionResolver;
  * Abstract class that encapsulates the required suffixes.
  *
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0.0
  */
 public abstract class AbstractSuffixAwareAuditActionResolver implements AuditActionResolver {

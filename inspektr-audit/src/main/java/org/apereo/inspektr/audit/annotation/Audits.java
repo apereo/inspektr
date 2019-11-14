@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
  * @author Alice Leung
  * @author Dmitriy Kopylenko
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0
  *
  */

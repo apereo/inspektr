@@ -31,7 +31,7 @@ import java.util.Set;
  * <code>AuditTrailManager</code> that dumps auditable information to a configured logger.
  *
  * @author Dmitriy Kopylenko
- * @version $Revision$ $Date$
+
  * @see AuditTrailManager
  * @since 1.0
  */

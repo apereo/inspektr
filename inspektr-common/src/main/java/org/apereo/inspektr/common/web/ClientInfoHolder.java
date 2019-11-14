@@ -22,7 +22,6 @@ package org.apereo.inspektr.common.web;
  * Makes the ClientInfo available to the thread.
  * 
  * @author Scott Battaglia
- * @version $Revision$ $Date$
  * @since 1.0
  *
  */

@@ -25,7 +25,7 @@ import org.apereo.inspektr.audit.spi.AuditResourceResolver;
  * Abstract AuditResourceResolver for when the resource is the same regardless of an exception or not.
  * 
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0
  *
  */

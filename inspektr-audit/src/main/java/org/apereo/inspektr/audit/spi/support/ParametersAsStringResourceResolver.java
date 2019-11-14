@@ -25,7 +25,7 @@ import java.util.List;
  * Returns the parameters as an array of strings.
  *
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0.0
  */
 public class ParametersAsStringResourceResolver extends AbstractAuditResourceResolver {

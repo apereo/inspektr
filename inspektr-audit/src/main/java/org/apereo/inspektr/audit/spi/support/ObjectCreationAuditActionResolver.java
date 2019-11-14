@@ -25,7 +25,7 @@ import org.apereo.inspektr.audit.annotation.Audit;
  * Uses the success/failure suffixes when an object is returned (or NULL is returned)
  * 
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @version 1.0
  *
  */

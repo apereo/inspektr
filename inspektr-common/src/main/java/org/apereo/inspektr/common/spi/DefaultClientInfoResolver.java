@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * Default implementation that gets it from the ThreadLocal.
  * 
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0
  *
  */

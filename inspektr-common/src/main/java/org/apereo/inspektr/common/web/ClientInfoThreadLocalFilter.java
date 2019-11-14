@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
  * IP address will be read from that instead.
  * 
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0
  *
  */

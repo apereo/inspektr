@@ -31,7 +31,7 @@ import java.util.Map;
  * Abstract AuditTrailManager that turns the AuditActionContext into a printable String.
  *
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0.1
  */
 public abstract class AbstractStringAuditTrailManager implements AuditTrailManager {

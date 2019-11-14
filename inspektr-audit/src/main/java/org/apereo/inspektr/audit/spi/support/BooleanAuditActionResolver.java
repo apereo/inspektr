@@ -29,7 +29,7 @@ import org.apereo.inspektr.audit.spi.AuditActionResolver;
  * value.
  * 
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0
  *
  */

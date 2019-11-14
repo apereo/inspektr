@@ -25,7 +25,7 @@ import org.apereo.inspektr.common.web.ClientInfo;
  * Interface for resolving the ClientInfo object.
  * 
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0
  *
  */

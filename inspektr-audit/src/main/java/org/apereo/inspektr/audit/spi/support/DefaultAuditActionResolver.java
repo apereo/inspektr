@@ -26,7 +26,7 @@ import org.apereo.inspektr.audit.annotation.Audit;
  * thrown.  Otherwise, the success suffix is used.
  * 
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0
  *
  */

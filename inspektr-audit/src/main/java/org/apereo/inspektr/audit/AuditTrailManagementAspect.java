@@ -44,7 +44,7 @@ import java.util.Map;
  *
  * @author Dmitriy Kopylenko
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0
  */
 @Aspect

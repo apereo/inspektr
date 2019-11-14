@@ -26,7 +26,7 @@ import org.aspectj.lang.JoinPoint;
  * functionality, to provide the action taken.
  * 
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0
  */
 public interface AuditActionResolver {

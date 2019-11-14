@@ -25,7 +25,7 @@ import org.aspectj.lang.JoinPoint;
  * functionality, to provide a current resource on which an audit-able action is being performed.
  * 
  * @author Dmitriy Kopylenko
- * @version $Revision$ $Date$
+
  * @since 1.0
  */
 public interface AuditResourceResolver {

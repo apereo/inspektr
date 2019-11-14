@@ -26,7 +26,7 @@ import org.aspectj.lang.JoinPoint;
  * 
  * @author Dmitriy Kopylenko
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 1.0
  */
 public interface PrincipalResolver {

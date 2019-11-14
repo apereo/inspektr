@@ -27,7 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * Resolves the principal name to the one provided by Spring Security.
  * 
  * @author Scott Battaglia
- * @version $Revision$ $Date$
+
  * @since 0.7.0
  *
  */
