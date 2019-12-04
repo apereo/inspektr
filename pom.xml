@@ -255,7 +255,7 @@
     </dependencies>
 
     <properties>
-        <spring.version>5.2.1.RELEASE</spring.version>
+        <spring.version>5.2.2.RELEASE</spring.version>
         <spring.security.version>5.1.5.RELEASE</spring.security.version>
         <slf4j.version>1.7.29</slf4j.version>
         <junit.version>4.12</junit.version>
