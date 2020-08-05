@@ -88,8 +88,6 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
 
     private static final String DELETE_SQL_TEMPLATE = "DELETE FROM %s %s";
 
-    private static final String SELECT_BY_DATE_SQL_TEMPLATE = "SELECT * FROM %s WHERE AUD_DATE>='%s' ORDER BY AUD_DATE DESC";
-
     private static final int DEFAULT_COLUMN_LENGTH = 100;
 
     /**
@@ -110,6 +108,8 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
 
     @Min(50)
     private int columnLength = DEFAULT_COLUMN_LENGTH;
+
+    private String selectByDateSqlTemplate = "SELECT * FROM %s WHERE AUD_DATE>='%s' ORDER BY AUD_DATE DESC";
 
     /**
      * ExecutorService that has one thread to asynchronously save requests.
@@ -154,7 +154,7 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
 
     private Set<? extends AuditActionContext> getAuditRecordsSince(final String sinceDate) {
         return this.transactionTemplate.execute((TransactionCallback<Set>) transactionStatus -> {
-            final String sql = String.format(SELECT_BY_DATE_SQL_TEMPLATE, tableName, sinceDate);
+            final String sql = String.format(this.selectByDateSqlTemplate, tableName, sinceDate);
             Set<AuditActionContext> results = new LinkedHashSet<>();
             getJdbcTemplate().query(sql, resultSet -> {
                 final String principal = resultSet.getString("AUD_USER");
@@ -274,5 +274,9 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
                 JdbcAuditTrailManager.this.logger.info(count + " records deleted.");
             }
         });
+    }
+
+    public void setSelectByDateSqlTemplate(final String selectByDateSqlTemplate) {
+        this.selectByDateSqlTemplate = selectByDateSqlTemplate;
     }
 }
