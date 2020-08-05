@@ -111,6 +111,8 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
 
     private String selectByDateSqlTemplate = "SELECT * FROM %s WHERE AUD_DATE>='%s' ORDER BY AUD_DATE DESC";
 
+    private String dateFormatterPattern = "yyyy-MM-dd 00:00:00.000000";
+    
     /**
      * ExecutorService that has one thread to asynchronously save requests.
      *
@@ -148,7 +150,7 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
 
     @Override
     public Set<? extends AuditActionContext> getAuditRecordsSince(final LocalDate sinceDate) {
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00.000000");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(this.dateFormatterPattern);
         return getAuditRecordsSince(sinceDate.format(formatter));
     }
 
@@ -274,6 +276,10 @@ public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implemen
                 JdbcAuditTrailManager.this.logger.info(count + " records deleted.");
             }
         });
+    }
+
+    public void setDateFormatterPattern(final String dateFormatterPattern) {
+        this.dateFormatterPattern = dateFormatterPattern;
     }
 
     public void setSelectByDateSqlTemplate(final String selectByDateSqlTemplate) {
