@@ -80,7 +80,7 @@ import java.util.concurrent.Executors;
  * @version $Revision: 1.7 $ $Date: 2007/12/03 22:02:41 $
  * @since 1.0
  */
-public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implements AuditTrailManager, Cleanable, DisposableBean {
+public class JdbcAuditTrailManager extends NamedParameterJdbcDaoSupport implements AuditTrailManager, DisposableBean {
 
     private static final String INSERT_SQL_TEMPLATE = "INSERT INTO %s " +
         "(AUD_USER, AUD_CLIENT_IP, AUD_SERVER_IP, AUD_RESOURCE, AUD_ACTION, APPLIC_CD, AUD_DATE) " +
