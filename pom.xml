@@ -258,7 +258,7 @@
         <spring.version>5.2.9.RELEASE</spring.version>
         <spring.security.version>5.1.5.RELEASE</spring.security.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <junit.version>4.13</junit.version>
+        <junit.version>4.13.1</junit.version>
         <aspectj.version>1.9.6</aspectj.version>
         <jackson.version>2.11.3</jackson.version>
         <javax.servlet.version>4.0.1</javax.servlet.version>
