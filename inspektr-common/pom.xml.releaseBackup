@@ -22,14 +22,13 @@
     <parent>
         <groupId>org.apereo.inspektr</groupId>
         <artifactId>inspektr</artifactId>
-        <version>1.8.11.GA</version>
+        <version>1.8.11.GA-SNAPSHOT</version>
     </parent>
-    <description>Inspektr Auditing</description>
+    <description>Inspektr Common</description>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>inspektr-audit</artifactId>
+    <artifactId>inspektr-common</artifactId>
     <packaging>jar</packaging>
-    <name>Inspektr - Auditing API</name>
-
+    <name>Inspektr - Common API</name>
     <dependencies>
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -37,26 +36,11 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apereo.inspektr</groupId>
-            <artifactId>inspektr-common</artifactId>
-            <version>${project.version}</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet.version}</version>
             <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
