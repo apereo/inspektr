@@ -62,4 +62,11 @@ public @interface Audit {
      * @return the reference to the action resolver.  CANNOT be NULL.
      */
     String actionResolverName();
+
+    /**
+     * Reference name of the principal resolver to use.
+     *
+     * @return the reference to the principal resolver.
+     */
+    String principalResolverName() default "";
 }

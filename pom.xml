@@ -175,6 +175,13 @@
             </dependency>
 
             <dependency>
+                <groupId>org.springframework.webflow</groupId>
+                <artifactId>spring-webflow</artifactId>
+                <version>${spring.webflow.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
                 <version>${spring.version}</version>
@@ -257,6 +264,7 @@
     <properties>
         <spring.version>5.3.3</spring.version>
         <spring.security.version>5.1.5.RELEASE</spring.security.version>
+        <spring.webflow.version>2.5.1.RELEASE</spring.webflow.version>
         <slf4j.version>1.7.30</slf4j.version>
         <junit.version>4.13.1</junit.version>
         <aspectj.version>1.9.6</aspectj.version>

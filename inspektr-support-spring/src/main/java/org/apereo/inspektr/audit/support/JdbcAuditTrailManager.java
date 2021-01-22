@@ -35,7 +35,6 @@ package org.apereo.inspektr.audit.support;
 
 import org.apereo.inspektr.audit.AuditActionContext;
 import org.apereo.inspektr.audit.AuditTrailManager;
-import org.apereo.inspektr.common.Cleanable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;

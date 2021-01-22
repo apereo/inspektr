@@ -75,5 +75,7 @@ public interface PrincipalResolver {
      *
      * @return the principal.  CANNOT be NULL.
      */
-    String resolve();
+    default String resolve() {
+        return UNKNOWN_USER;
+    }
 }
