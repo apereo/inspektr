@@ -178,6 +178,7 @@ public class AuditTrailManagementAspect {
         } catch (final Throwable t) {
             final Exception e = wrapIfNecessary(t);
             currentPrincipal = getCurrentPrincipal(joinPoint, audit, e);
+            auditResource = auditResourceResolver.resolveFrom(joinPoint, e);
             action = auditActionResolver.resolveFrom(joinPoint, e, audit);
             throw t;
         } finally {
