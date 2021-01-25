@@ -1,0 +1,80 @@
+package org.apereo.inspektr.audit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+/**
+ * This is {@link FilterAndDelegateAuditTrailManager}.
+ *
+ * @author Misagh Moayyed
+ */
+public class FilterAndDelegateAuditTrailManager implements AuditTrailManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FilterAndDelegateAuditTrailManager.class);
+
+    private final Collection<AuditTrailManager> auditTrailManagers;
+
+    private final List<String> supportedActionsPerformed;
+
+    private final List<String> excludedActionsPerformed;
+
+    public FilterAndDelegateAuditTrailManager(final Collection<AuditTrailManager> auditTrailManagers,
+                                              final List<String> supportedActionsPerformed,
+                                              final List<String> excludedActionsPerformed) {
+        this.auditTrailManagers = auditTrailManagers;
+        this.supportedActionsPerformed = supportedActionsPerformed;
+        this.excludedActionsPerformed = excludedActionsPerformed;
+    }
+
+    @Override
+    public void setAuditFormat(final AuditFormats auditFormat) {
+        auditTrailManagers.forEach(mgr -> mgr.setAuditFormat(auditFormat));
+    }
+
+    @Override
+    public void record(final AuditActionContext auditActionContext) {
+        boolean matched = supportedActionsPerformed
+            .stream()
+            .anyMatch(action -> {
+                String actionPerformed = auditActionContext.getActionPerformed();
+                return "*".equals(action) || Pattern.compile(action).matcher(actionPerformed).find();
+            });
+
+        if (matched) {
+            matched = excludedActionsPerformed
+                .stream()
+                .noneMatch(action -> {
+                    String actionPerformed = auditActionContext.getActionPerformed();
+                    return "*".equals(action) || Pattern.compile(action).matcher(actionPerformed).find();
+                });
+        }
+        if (matched) {
+            LOGGER.trace("Recording audit action context [{}]", auditActionContext);
+            auditTrailManagers.forEach(mgr -> mgr.record(auditActionContext));
+        } else {
+            LOGGER.trace("Skipping to record audit action context [{}] as it's not authorized as an audit action among [{}]",
+                auditActionContext, supportedActionsPerformed);
+        }
+    }
+
+    @Override
+    public Set<? extends AuditActionContext> getAuditRecordsSince(final LocalDate localDate) {
+        return auditTrailManagers
+            .stream()
+            .map(mgr -> mgr.getAuditRecordsSince(localDate))
+            .flatMap(Set::stream)
+            .collect(Collectors.toSet());
+    }
+
+    @Override
+    public void removeAll() {
+        auditTrailManagers.forEach(AuditTrailManager::removeAll);
+    }
+}
+
