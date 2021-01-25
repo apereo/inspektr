@@ -21,7 +21,6 @@ This project includes:
   Hamcrest Core under New BSD License
   Inspektr - Auditing API under Apache 2.0 License
   Inspektr - Common API under Apache 2.0 License
-  Inspektr - Error Logging under Apache 2.0 License
   Inspektr - Spring Framework Support under Apache 2.0 License
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
