@@ -40,14 +40,6 @@
 
         <dependency>
             <groupId>org.apereo.inspektr</groupId>
-            <artifactId>inspektr-error</artifactId>
-            <version>${project.version}</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apereo.inspektr</groupId>
             <artifactId>inspektr-common</artifactId>
             <version>${project.version}</version>
             <type>jar</type>
