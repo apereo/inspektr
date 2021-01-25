@@ -6,9 +6,9 @@
  * Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License.  You may obtain a
  * copy of the License at the following location:
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,22 +18,30 @@
  */
 package org.apereo.inspektr.audit.spi.support;
 
+import org.apereo.inspektr.audit.AuditTrailManager;
+import org.apereo.inspektr.audit.spi.AuditResourceResolver;
+import org.aspectj.lang.JoinPoint;
+
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-
-import org.aspectj.lang.JoinPoint;
-import org.apereo.inspektr.audit.spi.AuditResourceResolver;
 
 /**
  * Implementation of {@link AuditResourceResolver} that uses the toString version of the return value
  * as the resource.
- * 
+ *
  * @author Scott Battaglia
 
  * @since 1.0
  *
  */
 public class ReturnValueAsStringResourceResolver implements AuditResourceResolver {
+
+    private AuditTrailManager.AuditFormats auditFormat = AuditTrailManager.AuditFormats.DEFAULT;
+
+    public void setAuditFormat(final AuditTrailManager.AuditFormats auditFormat) {
+        this.auditFormat = auditFormat;
+    }
 
     @Override
     public String[] resolveFrom(final JoinPoint auditableTarget, final Object retval) {
@@ -46,7 +54,7 @@ public class ReturnValueAsStringResourceResolver implements AuditResourceResolve
                 final Object o = iter.next();
 
                 if (o != null) {
-                    retvals[i] = iter.next().toString();
+                    retvals[i] = toResourceString(o);
                 }
             }
 
@@ -57,21 +65,28 @@ public class ReturnValueAsStringResourceResolver implements AuditResourceResolve
             final Object[] vals = (Object[]) retval;
             final String[] retvals = new String[vals.length];
             for (int i = 0; i < vals.length; i++) {
-                retvals[i] = vals[i].toString();
+                retvals[i] = toResourceString(vals[i]);
             }
 
             return retvals;
         }
 
-        return new String[] {retval.toString()};
+        return new String[]{toResourceString(retval)};
     }
 
     @Override
     public String[] resolveFrom(final JoinPoint auditableTarget, final Exception exception) {
         final String message = exception.getMessage();
         if (message != null) {
-            return new String[] {message};
+            return new String[]{toResourceString(message)};
         }
-        return new String[] {exception.toString()};
+        return new String[]{toResourceString(exception)};
+    }
+
+    public String toResourceString(final Object arg) {
+        if (auditFormat == AuditTrailManager.AuditFormats.JSON) {
+            return AuditTrailManager.toJson(arg);
+        }
+        return arg.toString();
     }
 }

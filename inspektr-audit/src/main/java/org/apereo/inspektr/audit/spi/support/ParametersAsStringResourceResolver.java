@@ -18,6 +18,8 @@
  */
 package org.apereo.inspektr.audit.spi.support;
 
+import org.apereo.inspektr.audit.AuditTrailManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +37,16 @@ public class ParametersAsStringResourceResolver extends AbstractAuditResourceRes
         final List<String> stringArgs = new ArrayList<String>();
 
         for (final Object arg : args) {
-            stringArgs.add(arg.toString());
+            stringArgs.add(toResourceString(arg));
         }
 
         return stringArgs.toArray(new String[stringArgs.size()]);
+    }
+
+    public String toResourceString(final Object arg) {
+        if (auditFormat == AuditTrailManager.AuditFormats.JSON) {
+            return AuditTrailManager.toJson(arg);
+        }
+        return arg.toString();
     }
 }

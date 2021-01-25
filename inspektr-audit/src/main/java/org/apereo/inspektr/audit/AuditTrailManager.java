@@ -18,7 +18,10 @@
  */
 package org.apereo.inspektr.audit;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apereo.inspektr.common.Cleanable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -30,6 +33,9 @@ import java.util.Set;
  * @since 1.0
  */
 public interface AuditTrailManager extends Cleanable {
+    Logger LOG = LoggerFactory.getLogger(AuditTrailManager.class);
+
+    ObjectMapper MAPPER = new ObjectMapper().findAndRegisterModules();
 
     /**
      * Make an audit trail record. Implementations could use any type of back end medium to serialize audit trail
@@ -56,5 +62,18 @@ public interface AuditTrailManager extends Cleanable {
 
     @Override
     default void clean() {
+    }
+
+    enum AuditFormats {
+        DEFAULT, JSON
+    }
+
+    static String toJson(final Object arg) {
+        try {
+            return MAPPER.writeValueAsString(arg);
+        } catch (final Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return null;
     }
 }

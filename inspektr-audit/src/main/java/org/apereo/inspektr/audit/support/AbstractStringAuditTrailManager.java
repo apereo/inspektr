@@ -35,12 +35,6 @@ import java.util.Map;
  * @since 1.0.1
  */
 public abstract class AbstractStringAuditTrailManager implements AuditTrailManager {
-    private final ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
-
-    public enum AuditFormats {
-        DEFAULT, JSON
-    }
-
     /**
      * what format should the audit log entry use?
      */
@@ -78,10 +72,10 @@ public abstract class AbstractStringAuditTrailManager implements AuditTrailManag
 
             try {
                 if (this.useSingleLine) {
-                    final ObjectWriter writer = this.mapper.writer(new MinimalPrettyPrinter());
+                    final ObjectWriter writer = this.MAPPER.writer(new MinimalPrettyPrinter());
                     builder.append(writer.writeValueAsString(getJsonObjectForAudit(auditActionContext)));
                 } else {
-                    builder.append(this.mapper.writerWithDefaultPrettyPrinter().writeValueAsString(getJsonObjectForAudit(auditActionContext)));
+                    builder.append(this.MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(getJsonObjectForAudit(auditActionContext)));
                     builder.append("\n");
                 }
             } catch (final Exception e) {

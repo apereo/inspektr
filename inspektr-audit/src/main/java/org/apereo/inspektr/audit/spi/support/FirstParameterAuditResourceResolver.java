@@ -18,6 +18,7 @@
  */
 package org.apereo.inspektr.audit.spi.support;
 
+import org.apereo.inspektr.audit.AuditTrailManager;
 import org.apereo.inspektr.audit.spi.AuditResourceResolver;
 import org.apereo.inspektr.audit.util.AopUtils;
 import org.aspectj.lang.JoinPoint;
@@ -34,9 +35,15 @@ import java.util.Arrays;
 public class FirstParameterAuditResourceResolver implements AuditResourceResolver {
 
     private String resourceString;
+    
+    private AuditTrailManager.AuditFormats auditFormat = AuditTrailManager.AuditFormats.DEFAULT;
 
     public void setResourceString(final String resourceString) {
         this.resourceString = resourceString;
+    }
+
+    public void setAuditFormat(final AuditTrailManager.AuditFormats auditFormat) {
+        this.auditFormat = auditFormat;
     }
 
     @Override
@@ -59,9 +66,15 @@ public class FirstParameterAuditResourceResolver implements AuditResourceResolve
      * @return the string[]
      */
     private String[] toResources(final Object[] args) {
-        if (this.resourceString != null) {
-            return new String[]{this.resourceString + Arrays.asList((Object[]) args[0])};
+        return new String[] {toResourceString(args[0])};
+    }
+
+    public String toResourceString(final Object arg) {
+        if (auditFormat == AuditTrailManager.AuditFormats.JSON) {
+            return AuditTrailManager.toJson(arg);
         }
-        return new String[] {args[0].toString()};
+        return resourceString != null
+            ? this.resourceString + Arrays.asList(arg)
+            : arg.toString();
     }
 }

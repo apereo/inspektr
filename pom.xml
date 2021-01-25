@@ -280,7 +280,6 @@
 
     <modules>
         <module>inspektr-common</module>
-        <module>inspektr-error</module>
         <module>inspektr-audit</module>
         <module>inspektr-support-spring</module>
         <module>inspektr-aspects</module>
