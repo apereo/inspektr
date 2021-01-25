@@ -34,6 +34,7 @@ public abstract class AbstractAuditResourceResolver implements AuditResourceReso
 
     protected AuditTrailManager.AuditFormats auditFormat = AuditTrailManager.AuditFormats.DEFAULT;
 
+    @Override
     public void setAuditFormat(final AuditTrailManager.AuditFormats auditFormat) {
         this.auditFormat = auditFormat;
     }

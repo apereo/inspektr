@@ -64,6 +64,9 @@ public interface AuditTrailManager extends Cleanable {
     default void clean() {
     }
 
+    default void setAuditFormat(AuditTrailManager.AuditFormats auditFormat) {
+    }
+
     enum AuditFormats {
         DEFAULT, JSON
     }

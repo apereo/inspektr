@@ -18,6 +18,7 @@
  */
 package org.apereo.inspektr.audit.spi;
 
+import org.apereo.inspektr.audit.AuditTrailManager;
 import org.aspectj.lang.JoinPoint;
 
 /**
@@ -48,4 +49,7 @@ public interface AuditResourceResolver {
      * @return	The resource String.
      */
     String[] resolveFrom(JoinPoint target, Exception exception);
+
+    default void setAuditFormat(AuditTrailManager.AuditFormats auditFormat) {
+    }
 }

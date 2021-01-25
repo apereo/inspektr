@@ -65,6 +65,8 @@ public class AuditTrailManagementAspect {
 
     private final String applicationCode;
 
+    protected AuditTrailManager.AuditFormats auditFormat = AuditTrailManager.AuditFormats.DEFAULT;
+
     private ClientInfoResolver clientInfoResolver = new DefaultClientInfoResolver();
 
     private boolean failOnAuditFailures = true;
@@ -76,31 +78,37 @@ public class AuditTrailManagementAspect {
                                       final Map<String, AuditResourceResolver> auditResourceResolverMap) {
         this(applicationCode, defaultAuditPrincipalResolver,
             auditTrailManagers, auditActionResolverMap, auditResourceResolverMap,
-            new HashMap<>());
+            new HashMap<>(), AuditTrailManager.AuditFormats.DEFAULT);
     }
 
     /**
-     * Constructs an AuditTrailManagementAspect with the following parameters.  Also, registers some default AuditActionResolvers including the
-     * {@link DefaultAuditActionResolver}, the {@link BooleanAuditActionResolver} and the {@link ObjectCreationAuditActionResolver}.
+     * Constructs an AuditTrailManagementAspect with the following parameters.  Also, registers
+     * some default AuditActionResolvers including the
+     * {@link DefaultAuditActionResolver}, the {@link BooleanAuditActionResolver}
+     * and the {@link ObjectCreationAuditActionResolver}.
      *
-     * @param applicationCode            the overall code that identifies this application.
-     * @param auditPrincipalResolvers    the map of resolvers by name provided in the annotation on the method.
-     * @param auditTrailManagers         the list of managers to write the audit trail out to.
-     * @param auditActionResolverMap     the map of resolvers by name provided in the annotation on the method.
-     * @param auditResourceResolverMap   the map of resolvers by the name provided in the annotation on the method.
+     * @param applicationCode               the overall code that identifies this application.
+     * @param defaultAuditPrincipalResolver the default audit principal resolver
+     * @param auditTrailManagers            the list of managers to write the audit trail out to.
+     * @param auditActionResolverMap        the map of resolvers by name provided in the annotation on the method.
+     * @param auditResourceResolverMap      the map of resolvers by the name provided in the annotation on the method.
+     * @param auditPrincipalResolvers       the map of resolvers by name provided in the annotation on the method.
+     * @param auditFormat                   the audit format
      */
     public AuditTrailManagementAspect(final String applicationCode,
                                       final PrincipalResolver defaultAuditPrincipalResolver,
                                       final List<AuditTrailManager> auditTrailManagers,
                                       final Map<String, AuditActionResolver> auditActionResolverMap,
                                       final Map<String, AuditResourceResolver> auditResourceResolverMap,
-                                      final Map<String, PrincipalResolver> auditPrincipalResolvers) {
+                                      final Map<String, PrincipalResolver> auditPrincipalResolvers,
+                                      final AuditTrailManager.AuditFormats auditFormat) {
         this.defaultAuditPrincipalResolver = defaultAuditPrincipalResolver;
         this.auditPrincipalResolvers = auditPrincipalResolvers;
         this.auditTrailManagers = auditTrailManagers;
         this.applicationCode = applicationCode;
         this.auditActionResolvers = auditActionResolverMap;
         this.auditResourceResolvers = auditResourceResolverMap;
+        this.auditFormat = auditFormat;
     }
 
     @Around(value = "@annotation(audits)", argNames = "audits")
@@ -116,8 +124,11 @@ public class AuditTrailManagementAspect {
 
             if (currentPrincipal != null) {
                 for (int i = 0; i < audits.value().length; i++) {
-                    final AuditActionResolver auditActionResolver = this.auditActionResolvers.get(audits.value()[i].actionResolverName());
-                    final AuditResourceResolver auditResourceResolver = this.auditResourceResolvers.get(audits.value()[i].resourceResolverName());
+                    final AuditActionResolver auditActionResolver = auditActionResolvers.get(audits.value()[i].actionResolverName());
+
+                    final AuditResourceResolver auditResourceResolver = auditResourceResolvers.get(audits.value()[i].resourceResolverName());
+                    auditResourceResolver.setAuditFormat(this.auditFormat);
+                    
                     auditableResources[i] = auditResourceResolver.resolveFrom(joinPoint, retVal);
                     actions[i] = auditActionResolver.resolveFrom(joinPoint, retVal, audits.value()[i]);
                 }
@@ -129,7 +140,10 @@ public class AuditTrailManagementAspect {
 
             if (currentPrincipal != null) {
                 for (int i = 0; i < audits.value().length; i++) {
-                    auditableResources[i] = this.auditResourceResolvers.get(audits.value()[i].resourceResolverName()).resolveFrom(joinPoint, e);
+                    AuditResourceResolver auditResourceResolver = this.auditResourceResolvers.get(audits.value()[i].resourceResolverName());
+                    auditResourceResolver.setAuditFormat(this.auditFormat);
+                    
+                    auditableResources[i] = auditResourceResolver.resolveFrom(joinPoint, e);
                     actions[i] = auditActionResolvers.get(audits.value()[i].actionResolverName()).resolveFrom(joinPoint, e, audits.value()[i]);
                 }
             }
@@ -160,7 +174,9 @@ public class AuditTrailManagementAspect {
     @Around(value = "@annotation(audit)", argNames = "audit")
     public Object handleAuditTrail(final ProceedingJoinPoint joinPoint, final Audit audit) throws Throwable {
         final AuditActionResolver auditActionResolver = this.auditActionResolvers.get(audit.actionResolverName());
+
         final AuditResourceResolver auditResourceResolver = this.auditResourceResolvers.get(audit.resourceResolverName());
+        auditResourceResolver.setAuditFormat(this.auditFormat);
 
         String currentPrincipal = null;
         String[] auditResource = new String[]{null};
@@ -223,6 +239,7 @@ public class AuditTrailManagementAspect {
 
             try {
                 for (final AuditTrailManager manager : auditTrailManagers) {
+                    manager.setAuditFormat(this.auditFormat);
                     manager.record(auditContext);
                 }
             } catch (final Throwable e) {

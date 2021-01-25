@@ -19,7 +19,6 @@
 package org.apereo.inspektr.audit.support;
 
 import com.fasterxml.jackson.core.util.MinimalPrettyPrinter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.apereo.inspektr.audit.AuditActionContext;
 import org.apereo.inspektr.audit.AuditTrailManager;
@@ -62,6 +61,7 @@ public abstract class AbstractStringAuditTrailManager implements AuditTrailManag
         this.useSingleLine = useSingleLine;
     }
 
+    @Override
     public void setAuditFormat(final AuditFormats auditFormat) {
         this.auditFormat = auditFormat;
     }

@@ -42,6 +42,7 @@ public class FirstParameterAuditResourceResolver implements AuditResourceResolve
         this.resourceString = resourceString;
     }
 
+    @Override
     public void setAuditFormat(final AuditTrailManager.AuditFormats auditFormat) {
         this.auditFormat = auditFormat;
     }

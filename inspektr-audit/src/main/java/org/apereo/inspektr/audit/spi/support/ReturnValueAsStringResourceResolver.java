@@ -22,7 +22,6 @@ import org.apereo.inspektr.audit.AuditTrailManager;
 import org.apereo.inspektr.audit.spi.AuditResourceResolver;
 import org.aspectj.lang.JoinPoint;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -37,8 +36,9 @@ import java.util.Iterator;
  */
 public class ReturnValueAsStringResourceResolver implements AuditResourceResolver {
 
-    private AuditTrailManager.AuditFormats auditFormat = AuditTrailManager.AuditFormats.DEFAULT;
+    protected AuditTrailManager.AuditFormats auditFormat = AuditTrailManager.AuditFormats.DEFAULT;
 
+    @Override
     public void setAuditFormat(final AuditTrailManager.AuditFormats auditFormat) {
         this.auditFormat = auditFormat;
     }
