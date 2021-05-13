@@ -270,7 +270,7 @@
 
     <properties>
         <spring.version>5.3.7</spring.version>
-        <spring.security.version>5.1.5.RELEASE</spring.security.version>
+        <spring.security.version>5.4.6</spring.security.version>
         <spring.webflow.version>2.5.1.RELEASE</spring.webflow.version>
         <slf4j.version>1.7.30</slf4j.version>
         <junit.version>4.13.2</junit.version>
