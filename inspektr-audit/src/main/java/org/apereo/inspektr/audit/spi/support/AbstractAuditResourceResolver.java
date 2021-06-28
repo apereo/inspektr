@@ -6,9 +6,9 @@
  * Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License.  You may obtain a
  * copy of the License at the following location:
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -22,17 +22,23 @@ import org.apereo.inspektr.audit.AuditTrailManager;
 import org.apereo.inspektr.audit.spi.AuditResourceResolver;
 import org.aspectj.lang.JoinPoint;
 
+import java.util.function.Function;
+
 /**
  * Abstract AuditResourceResolver for when the resource is the same regardless of an exception or not.
  *
  * @author Scott Battaglia
-
  * @since 1.0
- *
  */
 public abstract class AbstractAuditResourceResolver implements AuditResourceResolver {
 
     protected AuditTrailManager.AuditFormats auditFormat = AuditTrailManager.AuditFormats.DEFAULT;
+
+    protected Function<String[], String[]> resourcePostProcessor = inputs -> inputs;
+
+    public void setResourcePostProcessor(final Function<String[], String[]> resourcePostProcessor) {
+        this.resourcePostProcessor = resourcePostProcessor;
+    }
 
     @Override
     public void setAuditFormat(final AuditTrailManager.AuditFormats auditFormat) {
@@ -46,7 +52,7 @@ public abstract class AbstractAuditResourceResolver implements AuditResourceReso
 
     @Override
     public final String[] resolveFrom(final JoinPoint joinPoint, final Exception e) {
-        return createResource(joinPoint.getArgs());
+        return this.resourcePostProcessor.apply(createResource(joinPoint.getArgs()));
     }
 
     protected abstract String[] createResource(final Object[] args);

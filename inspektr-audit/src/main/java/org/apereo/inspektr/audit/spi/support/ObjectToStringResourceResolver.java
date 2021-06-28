@@ -6,9 +6,9 @@
  * Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License.  You may obtain a
  * copy of the License at the following location:
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -24,6 +24,7 @@ import org.aspectj.lang.JoinPoint;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Inspektr ResourceResolver that resolves resource as a target object's toString method call
@@ -32,7 +33,13 @@ import java.util.Map;
  */
 public class ObjectToStringResourceResolver implements AuditResourceResolver {
 
+    protected Function<String[], String[]> resourcePostProcessor = inputs -> inputs;
+
     private AuditTrailManager.AuditFormats auditFormat = AuditTrailManager.AuditFormats.DEFAULT;
+
+    public void setResourcePostProcessor(final Function<String[], String[]> resourcePostProcessor) {
+        this.resourcePostProcessor = resourcePostProcessor;
+    }
 
     @Override
     public void setAuditFormat(final AuditTrailManager.AuditFormats auditFormat) {
@@ -41,7 +48,7 @@ public class ObjectToStringResourceResolver implements AuditResourceResolver {
 
     @Override
     public String[] resolveFrom(JoinPoint target, Object returnValue) {
-        return new String[]{toResourceString(target.getTarget())};
+        return resourcePostProcessor.apply(new String[]{toResourceString(target.getTarget())});
     }
 
     @Override
@@ -49,7 +56,7 @@ public class ObjectToStringResourceResolver implements AuditResourceResolver {
         Map<String, String> values = new HashMap<>();
         values.put("target", toResourceString(target.getTarget()));
         values.put("exception", toResourceString(exception.getMessage()));
-        return new String[]{toResourceString(values)};
+        return resourcePostProcessor.apply(new String[]{toResourceString(values)});
     }
 
     public String toResourceString(final Object arg) {

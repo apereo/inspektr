@@ -27,6 +27,7 @@ import org.springframework.webflow.execution.Event;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * This is {@link NullableReturnValueAuditResourceResolver}.
@@ -40,6 +41,12 @@ public class NullableReturnValueAuditResourceResolver implements AuditResourceRe
 
     public NullableReturnValueAuditResourceResolver(final AuditResourceResolver delegate) {
         this.delegate = delegate;
+    }
+
+    protected Function<String[], String[]> resourcePostProcessor = inputs -> inputs;
+
+    public void setResourcePostProcessor(final Function<String[], String[]> resourcePostProcessor) {
+        this.resourcePostProcessor = resourcePostProcessor;
     }
 
     @Override
@@ -61,16 +68,16 @@ public class NullableReturnValueAuditResourceResolver implements AuditResourceRe
             values.put("timestamp", new Date(event.getTimestamp()));
             values.put("source", sourceName);
             if (auditFormat == AuditTrailManager.AuditFormats.JSON) {
-                return new String[]{AuditTrailManager.toJson(values)};
+                return resourcePostProcessor.apply(new String[]{AuditTrailManager.toJson(values)});
             }
-            return new String[]{values.toString()};
+            return resourcePostProcessor.apply(new String[]{values.toString()});
         }
-        return this.delegate.resolveFrom(joinPoint, o);
+        return resourcePostProcessor.apply(this.delegate.resolveFrom(joinPoint, o));
     }
 
     @Override
     public String[] resolveFrom(final JoinPoint joinPoint, final Exception e) {
-        return this.delegate.resolveFrom(joinPoint, e);
+        return resourcePostProcessor.apply(this.delegate.resolveFrom(joinPoint, e));
     }
 }
 

@@ -18,8 +18,12 @@
  */
 package org.apereo.inspektr.audit;
 
+import org.apereo.inspektr.audit.annotation.Audit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.actuate.audit.listener.AuditApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -33,7 +37,7 @@ import java.util.stream.Collectors;
  *
  * @author Misagh Moayyed
  */
-public class FilterAndDelegateAuditTrailManager implements AuditTrailManager {
+public class FilterAndDelegateAuditTrailManager implements AuditTrailManager, ApplicationEventPublisherAware {
     private static final Logger LOGGER = LoggerFactory.getLogger(FilterAndDelegateAuditTrailManager.class);
 
     private final Collection<AuditTrailManager> auditTrailManagers;
@@ -41,6 +45,8 @@ public class FilterAndDelegateAuditTrailManager implements AuditTrailManager {
     private final List<String> supportedActionsPerformed;
 
     private final List<String> excludedActionsPerformed;
+
+    private ApplicationEventPublisher applicationEventPublisher;
 
     public FilterAndDelegateAuditTrailManager(final Collection<AuditTrailManager> auditTrailManagers,
                                               final List<String> supportedActionsPerformed,
@@ -75,6 +81,14 @@ public class FilterAndDelegateAuditTrailManager implements AuditTrailManager {
         if (matched) {
             LOGGER.trace("Recording audit action context [{}]", auditActionContext);
             auditTrailManagers.forEach(mgr -> mgr.record(auditActionContext));
+
+            if (applicationEventPublisher != null) {
+                AuditApplicationEvent auditEvent = new AuditApplicationEvent(auditActionContext.getPrincipal(),
+                    auditActionContext.getActionPerformed(), auditActionContext.getApplicationCode(),
+                    auditActionContext.getClientIpAddress(), auditActionContext.getServerIpAddress(),
+                    auditActionContext.getResourceOperatedUpon(), auditActionContext.getWhenActionWasPerformed().toString());
+                applicationEventPublisher.publishEvent(auditEvent);
+            }
         } else {
             LOGGER.trace("Skipping to record audit action context [{}] as it's not authorized as an audit action among [{}]",
                 auditActionContext, supportedActionsPerformed);
@@ -93,6 +107,11 @@ public class FilterAndDelegateAuditTrailManager implements AuditTrailManager {
     @Override
     public void removeAll() {
         auditTrailManagers.forEach(AuditTrailManager::removeAll);
+    }
+
+    @Override
+    public void setApplicationEventPublisher(final ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 }
 

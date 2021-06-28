@@ -6,9 +6,9 @@
  * Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License.  You may obtain a
  * copy of the License at the following location:
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -24,6 +24,7 @@ import org.aspectj.lang.JoinPoint;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.function.Function;
 
 /**
  * Implementation of {@link AuditResourceResolver} that uses the toString version of the return value
@@ -38,10 +39,17 @@ public class ReturnValueAsStringResourceResolver implements AuditResourceResolve
 
     protected AuditTrailManager.AuditFormats auditFormat = AuditTrailManager.AuditFormats.DEFAULT;
 
+    protected Function<String[], String[]> resourcePostProcessor = inputs -> inputs;
+
     @Override
     public void setAuditFormat(final AuditTrailManager.AuditFormats auditFormat) {
         this.auditFormat = auditFormat;
     }
+
+    public void setResourcePostProcessor(final Function<String[], String[]> resourcePostProcessor) {
+        this.resourcePostProcessor = resourcePostProcessor;
+    }
+
 
     @Override
     public String[] resolveFrom(final JoinPoint auditableTarget, final Object retval) {
@@ -85,8 +93,12 @@ public class ReturnValueAsStringResourceResolver implements AuditResourceResolve
 
     public String toResourceString(final Object arg) {
         if (auditFormat == AuditTrailManager.AuditFormats.JSON) {
-            return AuditTrailManager.toJson(arg);
+            return postProcess(AuditTrailManager.toJson(arg));
         }
-        return arg.toString();
+        return postProcess(arg.toString());
+    }
+
+    protected String postProcess(final String value) {
+        return resourcePostProcessor.apply(new String[]{value})[0];
     }
 }
