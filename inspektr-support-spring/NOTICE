@@ -40,5 +40,7 @@ This project includes:
   Spring Web under Apache License, Version 2.0
   Spring Web Flow under The Apache Software License, Version 2.0
   Spring Web MVC under Apache License, Version 2.0
+  spring-boot under Apache License, Version 2.0
+  spring-boot-actuator under Apache License, Version 2.0
   spring-security-core under The Apache Software License, Version 2.0
 
