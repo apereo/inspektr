@@ -20,7 +20,7 @@
 pull_request_rules:
 - name: automatic merge
   conditions:
-    - status-success=Build / build (ubuntu-latest) (pull_request)
+    - status-success=Build / build (ubuntu-latest)
     - status-success=WIP
     - "#changes-requested-reviews-by=0"
     - base=master
