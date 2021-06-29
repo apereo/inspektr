@@ -60,5 +60,5 @@ jobs:
           java-version: ${{ env.JDK_CURRENT }}
       - name: Publish SNAPSHOTs
         if: ${{ env.SONATYPE_USER != null && env.SONATYPE_PWD != null }}
-        run:  mvn -T 10 deploy --settings ./github/workflows/settings.xml 
+        run:  mvn -T 10 deploy --settings ./.github/workflows/settings.xml 
 
