@@ -1,4 +1,4 @@
-name: CAS
+name: Build
 
 env:
   JAVA_OPTS: "-Xms512m -Xmx6048m -Xss128m -XX:ReservedCodeCacheSize=512m -server -XX:+UseG1GC"
@@ -8,7 +8,7 @@ env:
   SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
   GH_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  JDK_CURRENT: 11.0.11
+  JDK_CURRENT: 8
 
 ##########################################################################
 
@@ -34,6 +34,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
+    needs: cancel-previous-runs
     steps:
       - uses: actions/checkout@v2
       #      - name: Setup tmate session
