@@ -43,7 +43,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ env.JDK_CURRENT }}
-      - name: Build with Gradle
+      - name: Build
         run: mvn clean install
 
   ##########################################################################
