@@ -280,7 +280,7 @@
         <springboot.version>2.5.2</springboot.version>
         <spring.security.version>5.1.11.RELEASE</spring.security.version>
         <spring.webflow.version>2.5.1.RELEASE</spring.webflow.version>
-        <slf4j.version>1.7.30</slf4j.version>
+        <slf4j.version>1.7.31</slf4j.version>
         <junit.version>4.13.2</junit.version>
         <commons.lang.version>3.12.0</commons.lang.version>
         <aspectj.version>1.9.6</aspectj.version>
