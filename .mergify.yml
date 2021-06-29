@@ -18,9 +18,9 @@
 #
 
 pull_request_rules:
-- name: automatic merge by dependabot
+- name: automatic merge
   conditions:
-    - status-success=continuous-integration/travis-ci/pr
+    - status-success=Build
     - status-success=WIP
     - "#changes-requested-reviews-by=0"
     - base=master
