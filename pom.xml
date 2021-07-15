@@ -276,7 +276,7 @@
     </dependencies>
 
     <properties>
-        <spring.version>5.3.7</spring.version>
+        <spring.version>5.3.9</spring.version>
         <springboot.version>2.5.2</springboot.version>
         <spring.security.version>5.1.5.RELEASE</spring.security.version>
         <spring.webflow.version>2.5.1.RELEASE</spring.webflow.version>
